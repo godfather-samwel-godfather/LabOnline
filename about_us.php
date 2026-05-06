@@ -93,7 +93,9 @@
                     <span class="badge bg-primary px-3 mb-3 text-uppercase">About Us</span>
                     <h1 class="display-4 fw-bold">We Care For Your Health</h1>
                     <p class="lead">We are a modern healthcare platform focused on improving access to laboratory
-                        services, doctor consultations, and patient management using smart digital systems.</p>
+                        services, Book tests, schedule home collections and access your results using smart digital
+                        systems.
+                    </p>
                     <a href="#" class="btn btn-primary btn-lg mt-3 shadow">Learn More ➔</a>
                 </div>
             </div>
