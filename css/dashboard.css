@@ -1,0 +1,24 @@
+body{background:#f4f6f9;}
+
+.top-navbar{
+    background: rgba(25,31,52,1.0);
+}
+
+.sidebar{
+    width:250px;
+    height:100vh;
+    background: rgba(25,31,52,1.0);
+    position:fixed;
+    top:56px;
+}
+
+.main-content{
+    margin-left:250px;
+    margin-top:70px;
+}
+
+@media(max-width:768px){
+    .sidebar{width:70px;}
+    .sidebar span{display:none;}
+    .main-content{margin-left:70px;}
+}
