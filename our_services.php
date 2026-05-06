@@ -149,7 +149,7 @@
             <div class="col-lg-4 service-item doctor">
                 <div class="service-card">
                     <i class="bi bi-calendar-check fs-1 text-primary"></i>
-                    <h5 class="mt-3">Appointments</h5>
+                    <h5 class="mt-3">Book Appointments</h5>
                     <p>Book doctors online easily.</p>
                 </div>
             </div>
