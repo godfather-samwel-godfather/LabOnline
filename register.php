@@ -9,11 +9,11 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
     <style>
     body {
         background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-            url('images/hospital.jpg');
+            url('assets/images/hospital.jpg');
         background-size: cover;
         background-position: center;
     }
@@ -49,6 +49,8 @@
 
         position: relative;
         transition: 0.4s ease-in-out;
+
+        transition: background-image 0.5s ease-in-out;
     }
 
     /* DARK OVERLAY */
@@ -71,7 +73,7 @@
     /* ROLE FIELDS */
     #patientFields,
     #doctorFields,
-    #labFields {
+    #laboFields {
         display: none;
     }
 
@@ -107,17 +109,18 @@
 
                             <h4 class="fw-bold mb-3">Register Account</h4>
 
-                            <form>
+                            <form method="POST" action="register_process.php" enctype="multipart/form-data">
 
                                 <!-- CATEGORY -->
                                 <div class="mb-3">
                                     <label class="form-label fw-bold small">Select Category</label>
 
-                                    <select id="userCategory" class="form-select" onchange="toggleField()" required>
+                                    <select id="userCategory" name="role" class="form-select" onchange="toggleField()"
+                                        required>
                                         <option value="">-- Choose --</option>
                                         <option value="patient">Patient</option>
                                         <option value="doctor">Doctor</option>
-                                        <option value="lab">Laboratory</option>
+                                        <option value="labo">Laboratory</option>
                                     </select>
                                 </div>
 
@@ -125,49 +128,79 @@
                                 <div class="row g-2">
 
                                     <div class="col-12 col-md-6">
-                                        <input type="text" class="form-control" placeholder="Full Name" required>
+                                        <input type="text" name="full_name" class="form-control" placeholder="Full Name"
+                                            required>
                                     </div>
 
                                     <div class="col-12 col-md-6">
-                                        <input type="text" class="form-control" placeholder="Phone Number" required>
+                                        <input type="text" name="phone_number" class="form-control"
+                                            placeholder="Phone Number" required>
                                     </div>
 
                                     <div class="col-12 col-md-6">
-                                        <input type="email" class="form-control" placeholder="Email" required>
+                                        <input type="email" name="email" class="form-control" placeholder="Email"
+                                            required>
                                     </div>
 
                                     <div class="col-12 col-md-6">
-                                        <input type="password" class="form-control" placeholder="Password" required>
+                                        <input type="password" name="password" class="form-control"
+                                            placeholder="Password" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <input type="file" name="profile_image" class="form-control" accept="image/*">
                                     </div>
 
                                 </div>
 
                                 <!-- PATIENT -->
                                 <div id="patientFields" class="mt-3">
-                                    <input type="date" class="form-control mb-2">
-                                    <select class="form-control mb-2">
-                                        <option>Gender</option>
-                                        <option>Male</option>
-                                        <option>Female</option>
+                                    <input type="date" name="dob" class="form-control mb-2">
+                                    <select name="blood_group" class="form-control mb-2">
+                                        <option value="">Select Blood Group</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
                                     </select>
-                                    <textarea class="form-control" placeholder="Address"></textarea>
+                                    <select name="gender" class="form-control mb-2">
+                                        <option value="">Gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                    <textarea name="patient_address" class=" form-control"
+                                        placeholder="Home Address(Street,House No)"></textarea>
                                 </div>
 
                                 <!-- DOCTOR -->
                                 <div id="doctorFields" class="mt-3">
-                                    <input type="text" class="form-control mb-2" placeholder="Specialization">
-                                    <input type="text" class="form-control mb-2" placeholder="License Number">
-                                    <input type="text" class="form-control" placeholder="Hospital Name">
+                                    <input type="text" name="specialization" class="form-control mb-2"
+                                        placeholder="Specialization">
+                                    <input type="text" name="license_number" class="form-control mb-2"
+                                        placeholder="License Number">
+                                    <input type="text" name="hospital_name" class="form-control"
+                                        placeholder="Hospital Name">
+                                    <textarea name="doctor_address" class="form-control"
+                                        placeholder="Hospital Address(eg;Mikocheni Rd, Regacy medical center)"></textarea>
                                 </div>
+
 
                                 <!-- LAB -->
-                                <div id="labFields" class="mt-3">
-                                    <input type="text" class="form-control mb-2" placeholder="Lab Name">
-                                    <input type="text" class="form-control mb-2" placeholder="Location">
-                                    <input type="text" class="form-control" placeholder="Available Tests">
+                                <div id="laboFields" class="mt-3">
+                                    <input type="text" name="labo_name" class="form-control mb-2"
+                                        placeholder="Labo Name">
+                                    <input type="text" name="location" class="form-control mb-2" placeholder="Location">
+                                    <input type="text" name="available_tests" class="form-control"
+                                        placeholder="Available Tests">
+                                    <textarea name="labo_address" class=" form-control"
+                                        placeholder="Physical Address(e.g.,plot No.45, 1st Floor, Sunshine plaza)"></textarea>
                                 </div>
 
-                                <button class="btn btn-primary w-100 mt-4">
+
+                                <button class=" btn btn-primary w-100 mt-4">
                                     Register
                                 </button>
 
@@ -188,40 +221,58 @@
     <script>
     /* ROLE BACKGROUNDS */
     const roleBackgrounds = {
-        patient: "images/patient.jpg",
-        doctor: "images/doctor.jpg",
-        lab: "images/labo.jpg"
+        patient: "assets/images/patient.jpg",
+        doctor: "assets/images/doctor.jpg",
+        labo: "assets/images/labo.jpg"
     };
 
-    const defaultBackground = "images/default.jpg";
+    const defaultBackground = "assets/images/default.jpg";
 
     /* MAIN FUNCTION */
     function toggleField() {
-
         let category = document.getElementById("userCategory").value;
         let brand = document.getElementById("brandSection");
+        let formTitle = document.querySelector("h4.fw-bold");
 
-        // hide all fields
-        document.getElementById("patientFields").style.display = "none";
-        document.getElementById("doctorFields").style.display = "none";
-        document.getElementById("labFields").style.display = "none";
+        const roles = ["patient", "doctor", "labo"];
 
-        // DEFAULT IMAGE
-        if (!category) {
+        roles.forEach(role => {
+            let section = document.getElementById(role + "Fields");
+
+            if (section) {
+                // Tunatafuta input, select, na textarea zote ndani ya div ya role husika
+                let inputs = section.querySelectorAll("input, select, textarea");
+
+                if (role === category) {
+                    // 1. Onyesha na Wasiliana na hizi fields
+                    section.style.display = "block";
+                    inputs.forEach(input => {
+                        input.disabled = false; // Inaruhusu data kutumwa
+                        input.required = true; // Inamlazimisha mtumiaji ajaze
+                    });
+                } else {
+                    // 2. Ficha na Zima kabisa hizi fields
+                    section.style.display = "none";
+                    inputs.forEach(input => {
+                        input.disabled = true; // Inazuia data isitumwe PHP
+                        input.required = false; // Inazuia kizuizi cha browser
+                        input.value = ""; // Inasafisha maandishi yoyote yaliyokuwemo
+                    });
+                }
+            }
+        });
+
+        // UX: Maboresho ya picha na kichwa cha habari kulingana na Role iliyochaguliwa
+        if (category) {
+            formTitle.innerText = "Register as " + category.charAt(0).toUpperCase() + category.slice(1);
+            brand.style.backgroundImage = `url('${roleBackgrounds[category]}')`;
+        } else {
+            formTitle.innerText = "Register Account";
             brand.style.backgroundImage = `url('${defaultBackground}')`;
-            return;
         }
-
-        // ROLE IMAGE
-        brand.style.backgroundImage = roleBackgrounds[category] ?
-            `url('${roleBackgrounds[category]}')` :
-            `url('${defaultBackground}')`;
-
-        // SHOW FIELDS
-        document.getElementById(category + "Fields").style.display = "block";
     }
 
-    /* INITIAL LOAD */
+    /* INITIAL LOAD: Inahakikisha fomu inaanza ikiwa safi pindi page inapofunguka */
     document.addEventListener("DOMContentLoaded", function() {
         toggleField();
     });

@@ -40,6 +40,6 @@ function active($p){
     <i class="bi bi-bell"></i><span>Notifications</span>
 </a>
 
-<a href="../logout.php" class="d-flex align-items-center gap-2 p-2 text-white text-decoration-none">
+<a href="../auth/logout.php" class="d-flex align-items-center gap-2 p-2 text-white text-decoration-none">
     <i class="bi bi-box-arrow-right"></i><span>Logout</span>
 </a>

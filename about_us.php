@@ -8,14 +8,14 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 
 
     <style>
     /* HERO SECTION */
     .hero {
         background: linear-gradient(rgba(0, 31, 63, 0.7), rgba(0, 31, 63, 0.7)),
-            url('images/about.jpg');
+            url('assets/images/about.jpg');
         background-size: cover;
         background-position: center;
         color: white;
@@ -108,7 +108,7 @@
 
                 <div class="col-md-4">
                     <div class="card h-100">
-                        <img src="images/edit1.jpg" class="card-img-top" alt="Patients">
+                        <img src="assets/images/edit1.jpg" class="card-img-top" alt="Patients">
                         <div class="card-body">
                             <div class="icon-circle shadow"><i class="bi bi-people-fill"></i></div>
                             <h5 class="fw-bold">Patients</h5>
@@ -121,7 +121,7 @@
 
                 <div class="col-md-4">
                     <div class="card h-100">
-                        <img src="images/edit4.jpg" class="card-img-top" alt="Doctors">
+                        <img src="assets/images/edit4.jpg" class="card-img-top" alt="Doctors">
                         <div class="card-body">
                             <div class="icon-circle shadow"><i class="bi bi-person-badge-fill"></i></div>
                             <h5 class="fw-bold">Doctors</h5>
@@ -134,7 +134,7 @@
 
                 <div class="col-md-4">
                     <div class="card h-100">
-                        <img src="images/edit3.jpg" class="card-img-top" alt="Labs">
+                        <img src="assets/images/edit3.jpg" class="card-img-top" alt="Labs">
                         <div class="card-body">
                             <div class="icon-circle shadow"><i class="bi bi-microscope"></i></div>
                             <h5 class="fw-bold">Laboratories</h5>
@@ -178,7 +178,7 @@
             <div class="row g-4">
 
                 <div class="col-md-3 ">
-                    <img src="images/card1.jpg" class="rounded-circle mb-3 shadow-sm" width="100" height="100"
+                    <img src="assets/images/card1.jpg" class="rounded-circle mb-3 shadow-sm" width="100" height="100"
                         style="object-fit: cover;">
                     <h6 class="fw-bold mb-0">System Developer</h6>
                     <p class="small text-muted">Full Stack Developer</p>
@@ -190,7 +190,7 @@
                 </div>
 
                 <div class="col-md-3 ">
-                    <img src="images/abdu.jpg" class="rounded-circle mb-3 shadow-sm" width="100" height="100"
+                    <img src="assets/images/abdu.jpg" class="rounded-circle mb-3 shadow-sm" width="100" height="100"
                         style="object-fit: cover;">
                     <h6 class="fw-bold mb-0">Doctor</h6>
                     <p class="small text-muted">Medical Officer</p>
@@ -202,7 +202,7 @@
                 </div>
 
                 <div class="col-md-3 ">
-                    <img src="images/dorine.jpg" class="rounded-circle mb-3 shadow-sm" width="100" height="100"
+                    <img src="assets/images/dorine.jpg" class="rounded-circle mb-3 shadow-sm" width="100" height="100"
                         style="object-fit: cover;">
                     <h6 class="fw-bold mb-0">Lab Specialist</h6>
                     <p class="small text-muted">Laboratory Expert</p>
@@ -214,7 +214,7 @@
                 </div>
 
                 <div class="col-md-3 ">
-                    <img src="images/card2.jpg" class="rounded-circle mb-3 shadow-sm" width="100" height="100"
+                    <img src="assets/images/card2.jpg" class="rounded-circle mb-3 shadow-sm" width="100" height="100"
                         style="object-fit: cover;">
                     <h6 class="fw-bold mb-0">Support</h6>
                     <p class="small text-muted">Customer Support</p>

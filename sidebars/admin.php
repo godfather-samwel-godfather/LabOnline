@@ -16,22 +16,23 @@ function active($p){
 </a>
 
 <a href="users.php"
-    class="d-flex align-items-center gap-2 p-2 text-white text-decoration-none <?= active('users.php') ?>">
+    class="d-flex align-items-center gap-2 p-2 text-white text-decoration-none <?= active('manage_users.php') ?>">
     <i class="bi bi-people"></i><span>Users</span>
 </a>
 
-<a href="doctors.php"
-    class="d-flex align-items-center gap-2 p-2 text-white text-decoration-none <?= active('doctors.php') ?>">
+<a href="doctors_list.php"
+    class="d-flex align-items-center gap-2 p-2 text-white text-decoration-none <?= active('doctors_list.php') ?>">
     <i class="bi bi-heart-pulse"></i><span>Doctors</span>
 </a>
 
-<a href="patients.php"
-    class="d-flex align-items-center gap-2 p-2 text-white text-decoration-none <?= active('patients.php') ?>">
+<a href="patients_list.php"
+    class="d-flex align-items-center gap-2 p-2 text-white text-decoration-none <?= active('patients_list.php') ?>">
     <i class="bi bi-person"></i><span>Patients</span>
 </a>
 
-<a href="lab.php" class="d-flex align-items-center gap-2 p-2 text-white text-decoration-none <?= active('lab.php') ?>">
-    <i class="bi bi-flask"></i><span>Lab Staff</span>
+<a href="labo.php"
+    class="d-flex align-items-center gap-2 p-2 text-white text-decoration-none <?= active('labo.php') ?>">
+    <i class="bi bi-person-vcard"></i><span>Labo Staff</span>
 </a>
 
 <a href="appointments.php"
@@ -49,6 +50,6 @@ function active($p){
     <i class="bi bi-gear"></i><span>Settings</span>
 </a>
 
-<a href="../logout.php" class="d-flex align-items-center gap-2 p-2 text-white text-decoration-none">
+<a href="../auth/logout.php" class="d-flex align-items-center gap-2 p-2 text-white text-decoration-none">
     <i class="bi bi-box-arrow-right"></i><span>Logout</span>
 </a>

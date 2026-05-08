@@ -8,13 +8,13 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 
 
     <style>
     .hero-bg {
         background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-            url('images/hospital.jpg');
+            url('assets/images/hospital.jpg');
         background-size: cover;
         background-position: center;
         min-height: 70vh;
@@ -140,6 +140,58 @@
     .navbar-nav .nav-link:hover::after {
         width: 100%;
     }
+
+    /* HOW IT WORKS MODERN CARDS */
+    .how-card {
+        border: none;
+        border-radius: 18px;
+        transition: all 0.35s ease;
+        overflow: hidden;
+        position: relative;
+        background: #fff;
+    }
+
+    /* hover lift + shadow + glow */
+    .how-card:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 20px 40px rgba(0, 188, 212, 0.25);
+    }
+
+    /* icon circle animation */
+    .how-card i {
+        transition: all 0.35s ease;
+        display: inline-block;
+    }
+
+    .how-card:hover i {
+        transform: scale(1.2) rotate(5deg);
+        color: #00bcd4;
+    }
+
+    /* subtle top glow line */
+    .how-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 4px;
+        background: #00bcd4;
+        transition: 0.4s ease;
+    }
+
+    .how-card:hover::before {
+        width: 100%;
+    }
+
+    /* text smooth effect */
+    .how-card h5 {
+        transition: 0.3s ease;
+    }
+
+    .how-card:hover h5 {
+        color: #00bcd4;
+    }
     </style>
 </head>
 
@@ -168,7 +220,7 @@
                     </div>
 
                     <div class="col-lg-4 d-none d-lg-block text-end">
-                        <img src="images/doctor1.jpg" class="img-fluid rounded-4 shadow" alt="Doctor">
+                        <img src="assets/images/doctor1.jpg" class="img-fluid rounded-4 shadow" alt="Doctor">
                     </div>
 
                 </div>
@@ -181,7 +233,7 @@
                 <div class="row align-items-center g-5">
 
                     <div class="col-md-6">
-                        <img src="images/test.jpg" class="img-fluid rounded-4 shadow" alt="Service">
+                        <img src="assets/images/test.jpg" class="img-fluid rounded-4 shadow" alt="Service">
                     </div>
 
                     <div class="col-md-6">
@@ -195,6 +247,87 @@
                     </div>
 
                 </div>
+            </div>
+        </section><!-- HOW IT WORKS -->
+        <section class="py-5 bg-light">
+            <div class="container text-center">
+
+                <!-- Header -->
+                <span class="text-cyan fw-bold">HOW IT WORKS</span>
+                <h2 class="fw-bold mb-4">Simple Steps to Get Your Medical Services Online</h2>
+
+                <!-- Process line -->
+                <div class="d-flex justify-content-center align-items-center mb-5">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="rounded-circle bg-cyan text-white d-flex align-items-center justify-content-center"
+                            style="width:30px; height:30px;">1</div>
+
+                        <div style="width:80px; height:2px; background:#00bcd4;"></div>
+
+                        <div class="rounded-circle bg-cyan text-white d-flex align-items-center justify-content-center"
+                            style="width:30px; height:30px;">2</div>
+
+                        <div style="width:80px; height:2px; background:#00bcd4;"></div>
+
+                        <div class="rounded-circle bg-cyan text-white d-flex align-items-center justify-content-center"
+                            style="width:30px; height:30px;">3</div>
+
+                        <div style="width:80px; height:2px; background:#00bcd4;"></div>
+
+                        <div class="rounded-circle bg-cyan text-white d-flex align-items-center justify-content-center"
+                            style="width:30px; height:30px;">4</div>
+                    </div>
+                </div>
+
+                <!-- Cards -->
+                <div class="row g-4">
+
+                    <!-- Step 1 -->
+                    <div class="col-md-3">
+                        <div class="card h-100 shadow how-card">
+                            <div class="card-body">
+                                <i class="bi bi-calendar-check text-cyan fs-1 mb-3"></i>
+                                <h5 class="fw-bold">Book Appointment</h5>
+                                <p class="text-muted">Patients book appointments online easily through the platform.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="col-md-3">
+                        <div class="card h-100 shadow how-card">
+                            <div class="card-body">
+                                <i class="bi bi-house-heart text-cyan fs-1 mb-3"></i>
+                                <h5 class="fw-bold">Home Sample Collection</h5>
+                                <p class="text-muted">Our lab team visits your home to collect samples safely.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="col-md-3">
+                        <div class="card h-100 shadow how-card">
+                            <div class="card-body">
+                                <i class="bi bi-cpu text-cyan fs-1 mb-3"></i>
+                                <h5 class="fw-bold">Lab Processing</h5>
+                                <p class="text-muted">Samples are analyzed in our modern laboratory systems.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="col-md-3">
+                        <div class="card h-100 shadow how-card">
+                            <div class="card-body">
+                                <i class="bi bi-file-earmark-medical text-cyan fs-1 mb-3"></i>
+                                <h5 class="fw-bold">Get Results Online</h5>
+                                <p class="text-muted">Patients access results instantly through digital platform.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </section>
 

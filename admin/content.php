@@ -47,7 +47,7 @@
         <div class="card p-3 shadow-sm text-white bg-dark">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h6>Lab Staff</h6>
+                    <h6>Labo Staff</h6>
                     <h3>15</h3>
                 </div>
                 <i class="bi bi-flask fs-2"></i>
@@ -88,9 +88,9 @@
 
     <ul class="list-group list-group-flush mt-2">
 
-        <li class="list-group-item">✔ New Doctor registered (Dr. John)</li>
-        <li class="list-group-item">✔ Patient Asha booked appointment</li>
-        <li class="list-group-item">✔ Lab results uploaded for Ali</li>
+        <li class="list-group-item">✔ New Doctor registered (Dr. Maria Samwel)</li>
+        <li class="list-group-item">✔ Patient Godfather appointment</li>
+        <li class="list-group-item">✔ Lab results uploaded for Joan</li>
         <li class="list-group-item">✔ System backup completed</li>
 
     </ul>
