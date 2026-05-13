@@ -1,23 +1,25 @@
-<!--=====-Inaanza session
-Inachukua role
-Inahakikisha role ni valid
-Inalinda system isi-break====-->
-<!-- ===CALLED MIDDWARE (AUTH GUARD)===-->
 <?php
+// auth.php - Common authentication checks for all protected pages (CALLED MIDDLEWARE)
 session_start();
 require_once __DIR__ . '/../config/db.php';
 
-//  LOGIN CONTROL / lOGIN CHECK(IMPORTANT)
-if(!isset($_SESSION['user_id'])){
-    header("Location: ../login.php");
+// LOGIN CHECK
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../auth/login.php?error=Please login first");
     exit;
 }
-//  ROLE VALIDATE  (IMPORTANT)
 
-    $valid_roles = ['admin', 'doctor', 'labo', 'patient'];
-    if(!in_array($_SESSION['role'], $valid_roles)){
-        // Invalid role, Force log out user safely
-        session_destroy();
-        header("Location: ../login.php");
-        exit;
-    }
+// ROLE VALIDATION
+$valid_roles = ['admin', 'doctor', 'labo', 'patient'];
+
+if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], $valid_roles)) {
+    
+    // SAFE LOGOUT (destroy everything)
+    $_SESSION = [];
+    session_unset();
+    session_destroy();
+
+    header("Location: ../auth/login.php?error=Invalid session");
+    exit;
+}
+?>

@@ -228,7 +228,7 @@
         </section>
 
         <!-- ABOUT -->
-        <section class="py-5 bg-white">
+        <section class="py-5 bg-info">
             <div class="container py-5">
                 <div class="row align-items-center g-5">
 
@@ -237,7 +237,7 @@
                     </div>
 
                     <div class="col-md-6">
-                        <span class="text-cyan fw-bold">ABOUT US</span>
+                        <span class="text-dark fw-bold">ABOUT US</span>
                         <h2 class=" falling-text display-6 fw-bold my-3">
                             Best Medical Care For Yourself and Your Family
                         </h2>

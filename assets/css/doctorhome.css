@@ -1,0 +1,130 @@
+body{
+    background:#f1f5f9;
+    font-family:Arial, Helvetica, sans-serif;
+}
+.page-header{
+    background: linear-gradient(135deg,#0f172a,#2563eb);
+    
+}
+
+
+/* glass feel */
+
+.glass-card{
+    background:rgba(255,255,255,0.95);
+    backdrop-filter:blur(10px);
+    border:none;
+    border-radius:24px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.05);
+    transition:.4s ease;
+}
+
+.glass-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 18px 45px rgba(0,0,0,0.10);
+}
+
+/* smooth table rows */
+
+.table tbody tr{
+    transition:.3s ease;
+}
+
+.table tbody tr:hover{
+    background:#f8fbff;
+    transform:scale(1.01);
+}
+
+/* custom live pulse */
+
+.live-dot{
+    width:10px;
+    height:10px;
+    background:#dc3545;
+    border-radius:50%;
+    animation:pulse 1s infinite;
+}
+
+@keyframes pulse{
+    0%{
+        transform:scale(1);
+        opacity:1;
+    }
+
+    50%{
+        transform:scale(1.5);
+        opacity:.5;
+    }
+
+    100%{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+/* sidebar */
+
+.sidebar{
+    min-height:100vh;
+    background:linear-gradient(180deg,#0f172a,#1e293b);
+}
+
+/* nav links */
+
+.sidebar .nav-link{
+    color:#cbd5e1;
+    border-radius:14px;
+    padding:14px;
+    margin-bottom:10px;
+    transition:.3s ease;
+    font-weight:500;
+}
+
+.sidebar .nav-link:hover{
+    background:rgba(255,255,255,0.08);
+    color:white;
+    transform:translateX(4px);
+}
+
+.sidebar .nav-link.active{
+    background:#2563eb;
+    color:white;
+}
+
+/* stat icons */
+
+.stat-icon{
+    width:70px;
+    height:70px;
+    border-radius:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+}
+
+/* appointments avatar */
+
+.patient-avatar{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    background:#dbeafe;
+    color:#2563eb;
+}
+
+/* notification hover */
+
+.notification-item{
+    transition:.3s ease;
+    border-radius:18px;
+}
+
+.notification-item:hover{
+    background:#f8fafc;
+    transform:translateX(5px);
+}

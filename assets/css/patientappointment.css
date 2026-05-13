@@ -1,0 +1,21 @@
+/* Rangi maalum ambazo Bootstrap haina */
+.bg-lab-gradient {
+    background: linear-gradient(135deg, #0dcaf0, #089ec0);
+}
+
+.form-control, .form-select {
+    border: 1px solid #bfeff5;
+    transition: 0.3s;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #0dcaf0;
+    box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.25);
+}
+
+.icon-box {
+    width: 45px;
+    height: 45px;
+    background: rgba(13, 202, 240, 0.15);
+    color: #0dcaf0;
+}

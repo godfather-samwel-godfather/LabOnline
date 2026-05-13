@@ -1,0 +1,48 @@
+
+
+/* =========================
+   MINIMAL CUSTOM CSS ONLY
+========================= */
+
+body{
+    background:#f4f7fb;
+}
+
+/* make cards smoother */
+.card{
+    border-radius:12px;
+}
+
+/* header spacing */
+.card-header{
+    border-radius:12px 12px 0 0 !important;
+}
+
+/* inputs slight polish */
+.form-control{
+    border-radius:10px;
+}
+
+/* buttons slight rounding */
+.btn{
+    border-radius:8px;
+}
+
+/* table row hover subtle */
+.table-hover tbody tr:hover{
+    background:#f8f9fa;
+    transition:0.2s;
+}
+
+/* badges spacing */
+.badge{
+    padding:6px 10px;
+    border-radius:8px;
+}
+
+/* pagination spacing */
+.pagination .page-link{
+    border-radius:6px;
+    margin:0 2px;
+}
+

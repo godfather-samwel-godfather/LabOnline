@@ -1,34 +1,50 @@
 <?php
-$current = basename($_SERVER['PHP_SELF']);
-function active($p){ return basename($_SERVER['PHP_SELF'])==$p ? 'bg-primary rounded' : ''; }
+$current_page = $_GET['page'] ?? 'home';
+
+function active($p, $current){ 
+    // Tunatumia 'active' class ya bootstrap na rangi ya bluu
+    return ($p === $current) ? 'bg-primary shadow-sm' : ''; 
+}
 ?>
 
-<a href="dashboard.php"
-    class="d-flex align-items-center gap-2 p-2 text-white text-decoration-none <?= active('dashboard.php') ?>">
-    <i class="bi bi-speedometer2"></i><span>Dashboard</span>
-</a>
+<div class="sidebar d-none d-md-flex flex-column p-3 vh-100 position-fixed sidebar-bg text-white"
+    style="width: 250px; top: 56px;">
+    <div class="nav nav-pills flex-column mb-auto gap-1">
 
-<a href="appointments.php"
-    class="d-flex align-items-center gap-2 p-2 text-white text-decoration-none <?= active('appointments.php') ?>">
-    <i class="bi bi-calendar-check"></i><span>My Appointments</span>
-</a>
+        <a href="dashboard.php?page=home"
+            class="nav-link text-white d-flex align-items-center gap-3 <?= active('home', $current_page) ?>">
+            <i class="bi bi-speedometer2"></i>
+            <span>Dashboard</span>
+        </a>
+        <a href="dashboard.php?page=create_appointment"
+            class="nav-link text-white d-flex align-items-center gap-3 <?= active('create_appointment', $current_page) ?>">
+            <i class="bi bi-plus-circle"></i>
+            <span>Create Appointment</span>
+        </a>
+        <a href="dashboard.php?page=view_appointments"
+            class="nav-link text-white d-flex align-items-center gap-3 <?= active('view_appointments', $current_page) ?>">
+            <i class="bi bi-eye"></i>
+            <span>View Appointments</span>
+        </a>
 
-<a href="results.php"
-    class="d-flex align-items-center gap-2 p-2 text-white text-decoration-none <?= active('results.php') ?>">
-    <i class="bi bi-journal-text"></i><span>Test Results</span>
-</a>
+        <a href="dashboard.php?page=appointment_history"
+            class="nav-link text-white d-flex align-items-center gap-3 <?= active('appointment_history', $current_page) ?>">
+            <i class="bi bi-calendar-check"></i>
+            <span>My Appointments</span>
+        </a>
 
-<a href="prescriptions.php"
-    class="d-flex align-items-center gap-2 p-2 text-white text-decoration-none <?= active('prescriptions.php') ?>">
-    <i class="bi bi-capsule-pill"></i><span>Prescriptions</span>
-</a>
+        <a href="dashboard.php?page=view_test_results"
+            class="nav-link text-white d-flex align-items-center gap-3 <?= active('view_test_results', $current_page) ?>">
+            <i class="bi bi-journal-text"></i>
+            <span>View Test Results</span>
+        </a>
 
-<a href="book.php"
-    class="d-flex align-items-center gap-2 p-2 text-white text-decoration-none <?= active('book.php') ?>">
-    <i class="bi bi-plus-circle"></i><span>Book Appointment</span>
-</a>
-
-<a href="messages.php"
-    class="d-flex align-items-center gap-2 p-2 text-white text-decoration-none <?= active('messages.php') ?>">
-    <i class="bi bi-chat-dots"></i><span>Messages</span>
-</a>
+    </div>
+    <div class="nav nav-pills flex-column mt-auto pb-5">
+        <hr class="text-white-50">
+        <a href="../auth/logout.php" class="nav-link text-white d-flex align-items-center gap-3">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Logout</span>
+        </a>
+    </div>
+</div>

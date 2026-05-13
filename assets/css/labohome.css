@@ -1,0 +1,171 @@
+/* =========================
+   GENERAL PAGE
+========================= */
+
+body {
+    background: #eef2f7;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h4, h5, h6 {
+    font-weight: 600;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+    border-radius: 12px;
+    border: none;
+}
+
+.card h5 {
+    margin-bottom: 10px;
+}
+
+/* Top summary cards */
+.card.bg-warning,
+.card.bg-success,
+.card.bg-danger,
+.card.bg-primary {
+    border-radius: 12px;
+}
+
+.card.bg-warning h3,
+.card.bg-success h3,
+.card.bg-danger h3,
+.card.bg-primary h3 {
+    font-weight: bold;
+}
+
+/* =========================
+   TABLES
+========================= */
+
+.table {
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.table thead th {
+    background: #f8f9fa;
+    font-weight: 600;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* Hover effect */
+.table tbody tr:hover {
+    background: #f1f5f9;
+}
+
+/* =========================
+   BADGES
+========================= */
+
+.badge {
+    font-size: 12px;
+    padding: 6px 8px;
+    border-radius: 8px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn {
+    border-radius: 8px;
+    font-size: 14px;
+    padding: 6px 12px;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    transition: 0.2s;
+}
+
+/* =========================
+   QUICK ACTIONS
+========================= */
+
+.d-flex.flex-wrap.gap-2 button {
+    transition: all 0.2s ease;
+}
+
+.d-flex.flex-wrap.gap-2 button:hover {
+    transform: scale(1.05);
+}
+
+/* =========================
+   ALERTS
+========================= */
+
+.alert {
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+/* =========================
+   LIST GROUP (Recent Activity)
+========================= */
+
+.list-group-item {
+    border: none;
+    padding: 10px 0;
+    font-size: 14px;
+    background: transparent;
+    border-bottom: 1px solid #eee;
+}
+
+.list-group-item:last-child {
+    border-bottom: none;
+}
+
+/* =========================
+   PROGRESS BARS
+========================= */
+
+.progress {
+    height: 10px;
+    border-radius: 20px;
+    background: #e9ecef;
+}
+
+.progress-bar {
+    font-size: 10px;
+    line-height: 10px;
+    border-radius: 20px;
+}
+
+/* =========================
+   INPUT SEARCH
+========================= */
+
+input.form-control {
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* =========================
+   RESPONSIVE FIX
+========================= */
+
+@media (max-width: 768px) {
+
+    h4 {
+        font-size: 18px;
+    }
+
+    .card {
+        margin-bottom: 10px;
+    }
+
+    .table {
+        font-size: 13px;
+    }
+
+}

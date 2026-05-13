@@ -1,0 +1,66 @@
+body{
+    background:#eef2f7;
+}
+
+.main-content{
+    padding:25px;
+}
+
+.glass-card{
+    border:none;
+    border-radius:20px;
+    transition:0.3s;
+}
+
+.glass-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 15px 35px rgba(0,0,0,0.08);
+}
+
+.welcome-card{
+    background:linear-gradient(135deg,#0f172a,#2563eb);
+    border-radius:24px;
+    overflow:hidden;
+}
+
+.icon-box{
+    width:60px;
+    height:60px;
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:24px;
+}
+
+.quick-link{
+    transition:0.3s;
+    border-radius:18px;
+}
+
+.quick-link:hover{
+    transform:translateY(-5px);
+}
+
+.search-input{
+    border:none;
+    background:#f1f5f9;
+}
+
+.search-input:focus{
+    box-shadow:none;
+    background:#f1f5f9;
+}
+
+.profile-avatar{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#2563eb;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}

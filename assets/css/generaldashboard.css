@@ -1,0 +1,44 @@
+body {
+    background-color: #f4f6f9;
+}
+
+/* Navbar yako ibaki na rangi ileile uliyopenda */
+.top-navbar {
+    background: rgba(25, 31, 52, 1.0) !important;
+    height: 56px;
+}
+
+/* Hapa ndipo tunahakikisha main content inakaa pembeni ya sidebar */
+.main-content {
+    margin-left: 250px; /* Upana wa sidebar */
+    padding-top: 20px;
+    transition: all 0.3s;
+}
+
+/* Kwenye simu, main content inachukua screen nzima */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+    }
+    .sidebar {
+        display: none !important; /* Inaficha sidebar kwenye simu */
+    }
+}
+
+/* Inaboresha muonekano wa link zikiwa active */
+.nav-link {
+    border-radius: 8px;
+    padding: 12px 15px !important;
+    transition: 0.2s;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.sidebar-bg {
+    background-color: rgba(25, 31, 52, 1.0) !important;
+}
+.nav-link.active {
+    background-color: #2563eb !important;
+    color: white !important;
+}

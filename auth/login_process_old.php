@@ -1,7 +1,7 @@
 <?php
 session_start();
 // Using __DIR__ ensures the path is absolute and reliable
-require_once __DIR__ . '/config/db.php'; 
+require_once __DIR__ . '/../config/db.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
@@ -31,16 +31,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // 5. Role-Based Redirection (The Controller)
             switch ($user['role']) {
                 case 'admin':
-                    header("Location: admin/dashboard.php");
+                    header("Location: ../admin/dashboard.php");
                     break;
                 case 'doctor':
-                    header("Location: doctor/dashboard.php");
+                    header("Location: ../doctor/dashboard.php");
                     break;
                 case 'patient':
-                    header("Location: patient/dashboard.php");
+                    header("Location: ../patient/dashboard.php");
                     break;
                 case 'labo':
-                    header("Location: labo/dashboard.php");
+                    header("Location: ../labo/dashboard.php");
                     break;
                 default:
                     header("Location: login.php?error=Unauthorized role");

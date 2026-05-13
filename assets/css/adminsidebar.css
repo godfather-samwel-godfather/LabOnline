@@ -1,0 +1,34 @@
+.menu-item,
+.menu-btn,
+.submenu-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 12px;
+    color:#cbd5e1;
+    text-decoration:none;
+    border-radius:6px;
+    transition:0.25s;
+    margin:2px 0;
+}
+
+/* 🔵 HOVER BLUE (ALL ITEMS) */
+.menu-item:hover,
+.menu-btn:hover,
+.submenu-item:hover{
+    background:#0d6efd;
+    color:white;
+}
+
+/* 🔵 ACTIVE PAGE (PHP) */
+.active-link{
+    background:#0d6efd !important;
+    color:white !important;
+    box-shadow:0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* ICON SIZE */
+.menu-item i,
+.menu-btn i{
+    font-size:18px;
+}

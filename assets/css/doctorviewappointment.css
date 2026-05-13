@@ -1,0 +1,89 @@
+/* =====================================
+   GLOBAL STYLES
+===================================== */
+
+body{
+    background:#f4f7fb;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+/* =====================================
+   PAGE HEADER
+===================================== */
+
+.page-header{
+    border-radius:20px;
+}
+
+/* =====================================
+   STATS CARDS
+===================================== */
+
+.stats-card{
+    transition:.4s ease;
+    border-radius:20px;
+    overflow:hidden;
+    position:relative;
+    background:#fff;
+}
+
+.stats-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 20px 40px rgba(0,0,0,0.15);
+}
+
+.stats-card::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:100%;
+    height:4px;
+    background:linear-gradient(90deg,#0d6efd,#6610f2,#0dcaf0);
+    transition:.5s;
+}
+
+.stats-card:hover::before{
+    left:0;
+}
+
+.icon-box{
+    transition:.3s ease;
+}
+
+.stats-card:hover .icon-box{
+    transform:rotate(8deg) scale(1.15);
+}
+
+/* =====================================
+   SEARCH BOX
+===================================== */
+
+.search-box{
+    border-radius:50px;
+    padding-left:20px;
+}
+
+/* =====================================
+   TABLE
+===================================== */
+
+.table-hover tbody tr{
+    transition:.3s ease;
+}
+
+.table-hover tbody tr:hover{
+    background:#f1f6ff;
+}
+
+/* =====================================
+   BUTTONS
+===================================== */
+
+.btn{
+    transition:.3s ease;
+}
+
+.btn:hover{
+    transform:scale(1.05);
+}

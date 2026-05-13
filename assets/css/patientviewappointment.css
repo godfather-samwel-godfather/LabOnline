@@ -1,0 +1,96 @@
+body{
+    background:#f1f5f9;
+}
+
+/* Page Header */
+.page-header{
+    background: linear-gradient(135deg,#0f172a,#2563eb);
+    border-radius:20px;
+    padding:25px;
+    color:white;
+}
+
+.page-header h3{
+    font-weight:700;
+}
+
+/* Statistics Cards */
+.stats-card{
+    border:none;
+    border-radius:18px;
+    transition:0.3s;
+}
+
+.stats-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 15px 35px rgba(0,0,0,0.12);
+}
+
+.icon-box{
+    width:60px;
+    height:60px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:25px;
+}
+
+/* Colors */
+.bg-blue{
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+}
+
+.bg-green{
+    background:linear-gradient(135deg,#059669,#10b981);
+}
+
+.bg-orange{
+    background:linear-gradient(135deg,#ea580c,#fb923c);
+}
+
+.bg-purple{
+    background:linear-gradient(135deg,#7c3aed,#a855f7);
+}
+
+/* Table Section */
+.table-card{
+    border:none;
+    border-radius:20px;
+}
+
+/* Search */
+.search-box{
+    border-radius:12px;
+    border:1px solid #dbeafe;
+    padding:10px 15px;
+}
+
+/* Table */
+.table thead{
+    background:#eff6ff;
+}
+
+.table th{
+    color:#1e293b;
+}
+
+.table td{
+    vertical-align:middle;
+}
+
+/* Status Badges */
+.badge{
+    padding:8px 14px;
+    border-radius:20px;
+    font-size:13px;
+}
+
+/* Action Buttons */
+.action-btn{
+    width:35px;
+    height:35px;
+    border-radius:10px;
+    border:none;
+}

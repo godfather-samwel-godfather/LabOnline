@@ -1,6 +1,6 @@
 <?php
 // 1. Unganisha na Database
-require_once __DIR__ . '/config/db.php'; 
+require_once __DIR__ . '/../config/db.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
@@ -11,25 +11,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT); 
 
-    // 3. FILE VALIDATION (Security for Profile Image)
+    // 3. FILE VALIDATION (Security for Profile Image) - UPDATED ONLY
+    $uploadDir = "../assets/uploads/";
+
     $profile_image = "default.png"; 
     if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] == 0) {
+
         $allowed = ['jpg', 'jpeg', 'png', 'gif'];
         $filename = $_FILES['profile_image']['name'];
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
         if (in_array($ext, $allowed)) {
-            $new_name = time() . "_" . uniqid() . "." . $ext;
-            $target = "assets/uploads/" . $new_name;
-            
-            // Hakikisha folder lipo
-            if (!is_dir("assets/uploads/")) {
-                mkdir("assets/uploads/", 0777, true);
+
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
             }
+
+            $new_name = time() . "_" . uniqid() . "." . $ext;
+            $target = $uploadDir . $new_name;
 
             if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $target)) {
                 $profile_image = $new_name;
             }
+
         } else {
             header("Location: register.php?error=Invalid image Type");
             exit();
@@ -55,10 +59,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmtUser->bind_param("ssssss", $full_name, $email, $phone, $password, $role, $profile_image);
         $stmtUser->execute();
         
-        // Pata ID ya huyu user aliyesajiliwa sasa hivi
+        // Pata ID ya user
         $user_id = $conn->insert_id;
 
-        // C. Ingiza kwenye Role-Specific Table
+        // C. Role tables
         if ($role == 'patient') {
             $dob = $_POST['dob'] ?? null;
             $blood = $_POST['blood_group'] ?? null;
@@ -92,14 +96,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $stmtRole->execute();
 
-        // Kila kitu kiko sawa, hifadhi mabadiliko (Commit)
         $conn->commit();
         
         header("Location: login.php?msg=Registration Successful! Please login.");
         exit();
 
     } catch (Exception $e) {
-        // Ikitokea error yoyote, rudisha database hali ya mwanzo (Rollback)
         $conn->rollback();
         header("Location: register.php?error=" . urlencode($e->getMessage()));
         exit();

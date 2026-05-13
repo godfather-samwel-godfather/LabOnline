@@ -1,42 +1,34 @@
-<?php include 'head.php'; ?>
+<?php include __DIR__ . '/head.php'; ?>
 
 <body>
-    <?php include 'topnav.php'; ?>
 
-    <div class="sidebar text-white p-2">
-        <?php
-        // LAZIMA tufafanue $role inatoka wapi kabla ya kuitumia kwenye switch
-        // Tunaichukua kutoka kwenye session tuliyoseti kule login_process.php
-        $role = $_SESSION['role'] ?? 'patient'; 
+    <?php include __DIR__ . '/topnav.php'; ?>
 
-        switch($role){
-            case 'admin':
-                include "../sidebars/admin.php";
-                break;
-            case 'doctor':
-                include "../sidebars/doctor.php";
-                break;
-            case 'labo':
-                include "../sidebars/labo.php";
-                break;
-            case 'patient':
-                include "../sidebars/patient.php";
-                break;
-            default:
-                include "../sidebars/patient.php";
-        }
-        ?>
-    </div>
+    <div class="d-flex">
 
-    <div class="main-content p-3">
+        <div class="sidebar">
+            <?php
+            $role = $_SESSION['role'] ?? 'patient';
+            // Tumesahihisha path hapa chini
+            $sidebar_file = __DIR__ . "/../sidebars/$role.php";
+            
+            if(file_exists($sidebar_file)){
+                include $sidebar_file;
+            } else {
+                echo "Sidebar not found";
+            }
+            ?>
+        </div>
 
-        <?php
-        if(isset($page_content) && file_exists($page_content)){
-            include $page_content;
-        }else{
-            echo "<h4>Page not found</h4>";
-        }
-        ?>
+        <div class="main-content flex-grow-1 p-3" style="margin-top: 60px;">
+            <?php
+            if(isset($page_content) && file_exists($page_content)){
+                include $page_content;
+            } else {
+                echo "<h4>Page Not Found!</h4>";
+            }
+            ?>
+        </div>
 
     </div>
 
