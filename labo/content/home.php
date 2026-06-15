@@ -1,4 +1,17 @@
 <h4 class="mb-4">Laboratory Dashboard</h4>
+<?php
+$labRepo = new LaboratoryRepository($conn);
+$appointmentRepo = new AppointmentRepository($conn);
+$labId = $labRepo->getIdByUserId(getCurrentUserId());
+
+$pendingCount = $labId ? $appointmentRepo->countByLaboratoryAndStatus($labId, 'pending') : 0;
+$completedCount = $labId ? $appointmentRepo->countByLaboratoryAndStatus($labId, 'completed') : 0;
+$approvedCount = $labId ? $appointmentRepo->countByLaboratoryAndStatus($labId, 'approved') : 0;
+$totalRequests = $pendingCount + $approvedCount + $completedCount;
+$requests = $labId ? $appointmentRepo->getByLaboratoryId($labId, ['pending', 'approved']) : [];
+?>
+
+<?php flashMessage(); ?>
 
 <!-- TOP CARDS -->
 <div class="row g-3">
@@ -6,28 +19,28 @@
     <div class="col-12 col-sm-6 col-lg-3">
         <div class="card shadow-sm p-3 border-0 bg-warning text-white">
             <h6>Pending Tests</h6>
-            <h3>12</h3>
+            <h3><?= $pendingCount ?></h3>
         </div>
     </div>
 
     <div class="col-12 col-sm-6 col-lg-3">
         <div class="card shadow-sm p-3 border-0 bg-success text-white">
             <h6>Completed</h6>
-            <h3>30</h3>
-        </div>
-    </div>
-
-    <div class="col-12 col-sm-6 col-lg-3">
-        <div class="card shadow-sm p-3 border-0 bg-danger text-white">
-            <h6>Rejected Samples</h6>
-            <h3>4</h3>
+            <h3><?= $completedCount ?></h3>
         </div>
     </div>
 
     <div class="col-12 col-sm-6 col-lg-3">
         <div class="card shadow-sm p-3 border-0 bg-primary text-white">
+            <h6>Approved</h6>
+            <h3><?= $approvedCount ?></h3>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-3">
+        <div class="card shadow-sm p-3 border-0 bg-dark text-white">
             <h6>Total Requests</h6>
-            <h3>46</h3>
+            <h3><?= $totalRequests ?></h3>
         </div>
     </div>
 
@@ -65,32 +78,32 @@
 
                     <tbody>
 
+                        <?php if (empty($requests)): ?>
                         <tr>
-                            <td>John Doe <br><small class="text-muted">LAB-1023</small></td>
-                            <td>Blood Test</td>
-                            <td><span class="badge bg-danger">Urgent</span></td>
-                            <td><span class="badge bg-warning">Pending</span></td>
-                            <td>11 May 2026</td>
-                            <td><button class="btn btn-sm btn-primary">View</button></td>
+                            <td colspan="6" class="text-center text-muted py-4">No recent requests.</td>
                         </tr>
-
+                        <?php else: ?>
+                        <?php foreach (array_slice($requests, 0, 5) as $row): ?>
                         <tr>
-                            <td>Asha Mohamed <br><small class="text-muted">LAB-1024</small></td>
-                            <td>Malaria Test</td>
-                            <td><span class="badge bg-success">Normal</span></td>
-                            <td><span class="badge bg-success">Completed</span></td>
-                            <td>11 May 2026</td>
-                            <td><button class="btn btn-sm btn-success">Result</button></td>
+                            <td><?= e($row['patient_name']) ?></td>
+                            <td>Lab Test</td>
+                            <td>
+                                <span class="badge <?= $row['priority'] === 'urgent' ? 'bg-danger' : 'bg-success' ?>">
+                                    <?= e(ucfirst($row['priority'])) ?>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge <?= statusBadge($row['status']) ?>">
+                                    <?= e(ucfirst($row['status'])) ?>
+                                </span>
+                            </td>
+                            <td><?= e(formatDate($row['appointment_date'])) ?></td>
+                            <td>
+                                <a href="?page=test_requests" class="btn btn-sm btn-primary">View</a>
+                            </td>
                         </tr>
-
-                        <tr>
-                            <td>Ali Hassan <br><small class="text-muted">LAB-1025</small></td>
-                            <td>Urine Test</td>
-                            <td><span class="badge bg-danger">Urgent</span></td>
-                            <td><span class="badge bg-warning">Pending</span></td>
-                            <td>11 May 2026</td>
-                            <td><button class="btn btn-sm btn-primary">View</button></td>
-                        </tr>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
 
                     </tbody>
 

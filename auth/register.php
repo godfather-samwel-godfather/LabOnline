@@ -1,5 +1,9 @@
 <?php
 require_once '../config/db.php';
+require_once __DIR__ . '/redirect.php';
+
+$redirectKey = sanitizeRedirectKey($_GET['redirect'] ?? null);
+$redirectMsg = redirectIntentMessage($redirectKey);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -135,7 +139,39 @@ require_once '../config/db.php';
 
                             <h4 class="fw-bold mb-3">Register Account</h4>
 
-                            <form method="POST" action="register_process.php" enctype="multipart/form-data">
+                            <?php if ($redirectMsg): ?>
+                            <div class="alert alert-info py-2 small">
+                                <i class="bi bi-info-circle me-1"></i>
+                                <?= htmlspecialchars($redirectMsg) ?>
+                            </div>
+                            <?php endif; ?>
+
+                            <?php if (isset($_GET['msg'])): ?>
+                            <div class="alert alert-success py-2 small alert-dismissible fade show">
+                                <i class="bi bi-check-circle me-1"></i>
+                                <?php echo htmlspecialchars($_GET['msg']); ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                            <?php endif; ?>
+
+                            <?php if (isset($_GET['error'])): ?>
+                            <div class="alert alert-danger py-2 small alert-dismissible fade show">
+                                <i class="bi bi-exclamation-circle me-1"></i>
+                                <?php echo htmlspecialchars($_GET['error']); ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                            <?php endif; ?>
+
+                            <div id="passwordMismatch" class="alert alert-warning py-2 small d-none">
+                                <i class="bi bi-exclamation-triangle me-1"></i>
+                                Passwords do not match. Please try again.
+                            </div>
+
+                            <form method="POST" action="register_process.php" enctype="multipart/form-data"
+                                id="registerForm">
+                                <?php if ($redirectKey): ?>
+                                <input type="hidden" name="redirect" value="<?= htmlspecialchars($redirectKey) ?>">
+                                <?php endif; ?>
 
                                 <!-- CATEGORY -->
                                 <div class="mb-3">
@@ -169,9 +205,30 @@ require_once '../config/db.php';
                                     </div>
 
                                     <div class="col-12 col-md-6">
-                                        <input type="password" name="password" class="form-control"
-                                            placeholder="Password" required>
+                                        <label class="form-label small mb-1">Password</label>
+                                        <div class="input-group">
+                                            <input type="password" name="password" id="registerPassword"
+                                                class="form-control" placeholder="Password" minlength="8" required>
+                                            <button type="button" class="btn btn-outline-secondary toggle-password"
+                                                data-target="registerPassword" aria-label="Show or hide password">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </div>
+                                        <small class="text-muted">At least 8 characters</small>
                                     </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label small mb-1">Confirm Password</label>
+                                        <div class="input-group">
+                                            <input type="password" id="confirmPassword" class="form-control"
+                                                placeholder="Confirm Password" minlength="8" required>
+                                            <button type="button" class="btn btn-outline-secondary toggle-password"
+                                                data-target="confirmPassword" aria-label="Show or hide password">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
                                     <div class="col-12">
                                         <input type="file" name="profile_image" class="form-control" accept="image/*">
                                     </div>
@@ -229,6 +286,14 @@ require_once '../config/db.php';
                                 <button class=" btn btn-primary w-100 mt-4">
                                     Register
                                 </button>
+
+                                <div class="text-center mt-3">
+                                    <small class="text-muted">
+                                        Already have an account?
+                                        <a href="login.php<?= $redirectKey ? '?redirect=' . urlencode($redirectKey) : '' ?>"
+                                            class="fw-bold text-primary text-decoration-none">Login</a>
+                                    </small>
+                                </div>
 
                             </form>
 
@@ -366,6 +431,9 @@ require_once '../config/db.php';
         toggleField();
     });
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/auth-ui.js"></script>
 
 </body>
 

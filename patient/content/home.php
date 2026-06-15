@@ -1,4 +1,4 @@
-<div class="main-content">
+<div class="container-fluid">
 
     <!-- Top Header -->
 

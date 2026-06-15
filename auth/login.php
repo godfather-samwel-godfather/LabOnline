@@ -1,6 +1,9 @@
 <?php
 require_once '../config/db.php';
+require_once __DIR__ . '/redirect.php';
 
+$redirectKey = sanitizeRedirectKey($_GET['redirect'] ?? null);
+$redirectMsg = redirectIntentMessage($redirectKey);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -130,7 +133,17 @@ require_once '../config/db.php';
 
                             <h4 class="fw-bold mb-3">Login</h4>
 
+                            <?php if ($redirectMsg): ?>
+                            <div class="alert alert-info py-2 small">
+                                <i class="bi bi-info-circle me-1"></i>
+                                <?= htmlspecialchars($redirectMsg) ?>
+                            </div>
+                            <?php endif; ?>
+
                             <form method="POST" action="login_process.php" id="loginForm">
+                                <?php if ($redirectKey): ?>
+                                <input type="hidden" name="redirect" value="<?= htmlspecialchars($redirectKey) ?>">
+                                <?php endif; ?>
                                 <div class="mb-3">
                                     <label class="form-label small">Email Address</label>
                                     <input type="email" name="email" class="form-control" placeholder="Email" required>
@@ -138,8 +151,14 @@ require_once '../config/db.php';
 
                                 <div class="mb-3">
                                     <label class="form-label small">Password</label>
-                                    <input type="password" name="password" class="form-control" placeholder="Password"
-                                        required>
+                                    <div class="input-group">
+                                        <input type="password" name="password" id="loginPassword"
+                                            class="form-control" placeholder="Password" required>
+                                        <button type="button" class="btn btn-outline-secondary toggle-password"
+                                            data-target="loginPassword" aria-label="Show or hide password">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <button type="submit" class="btn btn-success w-100 py-2">
@@ -149,7 +168,8 @@ require_once '../config/db.php';
                                 <div class="text-center mt-3">
                                     <small class="text-muted">
                                         Don't have an account?
-                                        <a href="register.php" class="fw-bold text-primary text-decoration-none">
+                                        <a href="register.php<?= $redirectKey ? '?redirect=' . urlencode($redirectKey) : '' ?>"
+                                            class="fw-bold text-primary text-decoration-none">
                                             Register
                                         </a>
                                     </small>
@@ -230,6 +250,7 @@ require_once '../config/db.php';
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/auth-ui.js"></script>
 
 </body>
 

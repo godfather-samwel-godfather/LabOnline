@@ -2,6 +2,31 @@
    HEADER
 ===================================== -->
 
+<?php
+$appointmentRepo = new AppointmentRepository($conn);
+$labTestRepo = new LabTestRepository($conn);
+$doctorId = getCurrentUserId();
+$appointments = $appointmentRepo->getByDoctorId($doctorId);
+
+$todayCount = 0;
+$pendingCount = 0;
+$approvedCount = 0;
+$completedCount = 0;
+$today = date('Y-m-d');
+
+foreach ($appointments as $a) {
+    if (($a['appointment_date'] ?? '') === $today) {
+        $todayCount++;
+    }
+    match ($a['status']) {
+        'pending' => $pendingCount++,
+        'approved' => $approvedCount++,
+        'completed' => $completedCount++,
+        default => null,
+    };
+}
+?>
+
 <div class="page-header shadow-lg p-4 bg-primary text-white mb-4">
 
     <div class="d-flex justify-content-between align-items-center flex-wrap">
@@ -29,6 +54,8 @@
 
 </div>
 
+<?php flashMessage(); ?>
+
 <!-- =====================================
    STATISTICS CARDS
 ===================================== -->
@@ -50,7 +77,7 @@
                     </small>
 
                     <h2 class="fw-bold mt-2 mb-0">
-                        12
+                        <?= $todayCount ?>
                     </h2>
 
                 </div>
@@ -83,7 +110,7 @@
                     </small>
 
                     <h2 class="fw-bold mt-2 mb-0">
-                        5
+                        <?= $pendingCount ?>
                     </h2>
 
                 </div>
@@ -116,7 +143,7 @@
                     </small>
 
                     <h2 class="fw-bold mt-2 mb-0">
-                        24
+                        <?= $approvedCount ?>
                     </h2>
 
                 </div>
@@ -149,7 +176,7 @@
                     </small>
 
                     <h2 class="fw-bold mt-2 mb-0">
-                        40
+                        <?= $completedCount ?>
                     </h2>
 
                 </div>
@@ -230,98 +257,44 @@
                     <th>Date & Time</th>
                     <th>Service</th>
                     <th>Status</th>
-                    <th class="text-center">Action</th>
+                    <th>Laboratory</th>
                 </tr>
 
             </thead>
 
             <tbody>
 
-                <!-- ROW 1 -->
-
+                <?php if (empty($appointments)): ?>
                 <tr>
-
-                    <td>
-                        <div class="fw-bold">Samwel Mganga</div>
-                        <small class="text-muted">PT-1024</small>
-                    </td>
-
-                    <td>
-                        20 May 2026 <br>
-                        <small class="text-muted">10:00 AM</small>
-                    </td>
-
-                    <td>
-                        <span class="badge bg-light text-dark px-3 py-2 rounded-pill">
-                            Malaria Check
-                        </span>
-                    </td>
-
-                    <td>
-                        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill">
-                            Pending
-                        </span>
-                    </td>
-
-                    <td class="text-center">
-
-                        <button class="btn btn-success btn-sm rounded-pill">
-                            <i class="bi bi-check-lg"></i>
-                        </button>
-
-                        <button class="btn btn-danger btn-sm rounded-pill">
-                            <i class="bi bi-x-lg"></i>
-                        </button>
-
-                        <button class="btn btn-primary btn-sm rounded-pill">
-                            <i class="bi bi-eye"></i>
-                        </button>
-
-                    </td>
-
+                    <td colspan="5" class="text-center text-muted py-4">No appointments assigned to you yet.</td>
                 </tr>
-
-                <!-- ROW 2 -->
-
+                <?php else: ?>
+                <?php foreach ($appointments as $row): ?>
                 <tr>
                     <td>
-                        <div class="fw-bold">Neema Boaz</div>
-                        <small class="text-muted">PT-1024</small>
+                        <div class="fw-bold"><?= e($row['patient_name']) ?></div>
+                        <small class="text-muted">APT-<?= e((string) $row['id']) ?></small>
                     </td>
-
                     <td>
-                        21 May 2026 <br>
-                        <small class="text-muted">10:00 AM</small>
+                        <?= e(formatDate($row['appointment_date'])) ?><br>
+                        <small class="text-muted"><?= e(formatTime($row['appointment_time'])) ?></small>
                     </td>
-
                     <td>
                         <span class="badge bg-light text-dark px-3 py-2 rounded-pill">
-                            Typhoid Check
+                            <?= e($labTestRepo->getNamesByAppointmentId((int) $row['id'])) ?>
                         </span>
                     </td>
-
                     <td>
-                        <span class="badge bg-success text-dark px-3 py-2 rounded-pill">
-                            Approved
+                        <span class="badge <?= statusBadge($row['status']) ?> px-3 py-2 rounded-pill">
+                            <?= e(ucfirst($row['status'])) ?>
                         </span>
                     </td>
-
-                    <td class="text-center">
-
-                        <button class="btn btn-success btn-sm rounded-pill">
-                            <i class="bi bi-check-lg"></i>
-                        </button>
-
-                        <button class="btn btn-danger btn-sm rounded-pill">
-                            <i class="bi bi-x-lg"></i>
-                        </button>
-
-                        <button class="btn btn-primary btn-sm rounded-pill">
-                            <i class="bi bi-eye"></i>
-                        </button>
-
+                    <td class="text-center text-muted small">
+                        <?= e($row['labo_name'] ?? '-') ?>
                     </td>
                 </tr>
+                <?php endforeach; ?>
+                <?php endif; ?>
 
             </tbody>
 

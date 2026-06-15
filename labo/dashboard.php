@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/../auth/auth.php'; // Hakikisha amelogin
+require_once __DIR__ . '/../includes/bootstrap.php';
 
 // === 1. ROLE PROTECTION ===
 // Zuia mtu asiye mgonjwa kuingia huku

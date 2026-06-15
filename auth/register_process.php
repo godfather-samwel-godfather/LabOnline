@@ -1,6 +1,7 @@
 <?php
 // 1. Unganisha na Database
-require_once __DIR__ . '/../config/db.php'; 
+require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/redirect.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
@@ -97,13 +98,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmtRole->execute();
 
         $conn->commit();
-        
-        header("Location: login.php?msg=Registration Successful! Please login.");
+
+        $redirectKey = sanitizeRedirectKey($_POST['redirect'] ?? null);
+        $loginUrl = 'login.php?msg=' . urlencode('Registration Successful! Please login.');
+        if ($redirectKey) {
+            $loginUrl .= '&redirect=' . urlencode($redirectKey);
+        }
+        header('Location: ' . $loginUrl);
         exit();
 
     } catch (Exception $e) {
         $conn->rollback();
-        header("Location: register.php?error=" . urlencode($e->getMessage()));
+        $redirectKey = sanitizeRedirectKey($_POST['redirect'] ?? null);
+        $errorUrl = 'register.php?error=' . urlencode($e->getMessage());
+        if ($redirectKey) {
+            $errorUrl .= '&redirect=' . urlencode($redirectKey);
+        }
+        header('Location: ' . $errorUrl);
         exit();
     }
 

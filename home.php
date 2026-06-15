@@ -1,3 +1,9 @@
+<?php
+session_start();
+require_once __DIR__ . '/auth/redirect.php';
+$createAppointmentUrl = patientPageUrl('create_appointment');
+$checkAppointmentUrl = patientPageUrl('view_appointments');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -214,8 +220,10 @@
                         </h1>
 
                         <div class="d-flex gap-3 mt-4">
-                            <button class="btn bg-cyan btn-lg rounded-pill px-4">Check Appointment</button>
-                            <button class="btn btn-outline-light btn-lg rounded-pill px-4">Appointment</button>
+                            <a href="<?= htmlspecialchars($checkAppointmentUrl) ?>"
+                                class="btn bg-cyan btn-lg rounded-pill px-4">Check Appointment</a>
+                            <a href="<?= htmlspecialchars($createAppointmentUrl) ?>"
+                                class="btn btn-outline-light btn-lg rounded-pill px-4">Create Appointment</a>
                         </div>
                     </div>
 
