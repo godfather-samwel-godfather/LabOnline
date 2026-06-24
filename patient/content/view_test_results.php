@@ -18,7 +18,7 @@ $results = $resultRepo->getByPatientUserId(getCurrentUserId());
             <table class="table table-hover align-middle mb-0">
                 <thead>
                     <tr>
-                        <th>#</th>s
+                        <th>#</th>
                         <th>Appointment</th>
                         <th>Date</th>
                         <th>Status</th>
@@ -59,7 +59,7 @@ $results = $resultRepo->getByPatientUserId(getCurrentUserId());
                         <td><?= e($dateLabel) ?></td>
 
                         <td>
-                            <span class="badge <?= statusBadge($row['status']) ?>px-3 py-2 ">
+                            <span class="badge <?= statusBadge($row['status']) ?> text-dark px-3 py-2 ">
                                 <i class="bi bi-circle-fill me-1 small"></i>
                                 <?= e(ucfirst($row['status'])) ?>
                             </span>

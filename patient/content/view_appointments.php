@@ -21,7 +21,7 @@ $completedCount = $appointmentRepo->countByPatientAndStatus($patientId, 'complet
                 <i class="bi bi-calender-check me-2"></i>
                 My Appointments
             </h3>
-            <p class="text-muted text-white mb-0 ">
+            <p class="text-muted  mb-0 ">
                 Manage your laboratory appointments and
                 track progress.
 

@@ -27,7 +27,7 @@ $completedCount = $appointmentRepo->countByPatientAndStatus($patientId, 'complet
     <div class="card shadow-sm border-0 mb-3">
 
 
-        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
 
 
             <h5 class="mb-0">
