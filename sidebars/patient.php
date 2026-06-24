@@ -28,6 +28,11 @@ require_once __DIR__ . '/../includes/helpers.php';
             <i class="bi bi-journal-text"></i>
             <span>View Test Results</span>
         </a>
+        <a href="dashboard.php?page=appointment_history"
+            class="nav-link text-white d-flex align-items-center gap-3 <?= sidebarActive('appointment_history', $current_page) ?>">
+            <i class="bi bi-clock-history"></i>
+            <span>Appointment History</span>
+        </a>
 
     </div>
     <div class="nav nav-pills flex-column mt-auto pb-5">

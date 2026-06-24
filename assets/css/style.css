@@ -181,10 +181,15 @@
     border-color: #00bcd4;
     color: white !important;
     transform: translateY(-3px);
+}
 
-
-
-
+/* rounded badges for contact us messages history badgeza status pending replied ziwe na mviringo */
+.badge {
+    border-radius: 20px;
+}
+/* rounded admin reply message box,alert primary ya message history iwe na mviringo */
+.alert-primary {
+    border-radius: 10px;
 }
     
 

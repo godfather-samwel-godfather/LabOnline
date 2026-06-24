@@ -30,6 +30,12 @@ require_once __DIR__ . '/../includes/helpers.php';
                 <span>Lab Tests</span>
             </a>
 
+            <a href="dashboard.php?page=contact_messages"
+                class="menu-item <?= sidebarActive('contact_messages', $current_page) ?>">
+                <i class="bi bi-chat-text"></i>
+                <span>Messages</span>
+            </a>
+
             <div class="nav nav-pills flex-column mt-auto pb-5">
                 <hr class="text-white-50">
                 <a href="../auth/logout.php" class="nav-link text-white d-flex align-items-center gap-3">

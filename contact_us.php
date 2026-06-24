@@ -1,3 +1,27 @@
+<!-- Contact Us Page php code -->
+<?php
+// Unganisha faili la bootstrap linaloanzisha muunganisho wa database ($conn)
+require_once(__DIR__ . '/includes/bootstrap.php');
+
+// Ingiza file la Repository (Kama halijaingizwa kwenye bootstrap)
+require_once(__DIR__ . '/repositories/ContactRepository.php'); 
+// Ingiza file la Action (Kama halijaingizwa kwenye bootstrap)
+require_once(__DIR__ . '/actions/contactAction.php');
+
+
+// Anzisha Repository
+$contactRepository = new ContactRepository($conn);
+
+//getAllMessages kwa sababu  data ipo kwenye database reply za admin na status za messages, hivyo tunahitaji kuonyesha history ya messages kwa user)
+$result = $contactRepository->getAllMessages(); 
+$messages = [];
+
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $messages[] = $row;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,6 +58,7 @@
         border-radius: 15px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         padding: 25px;
+        margin-bottom: 25px;
     }
 
     /* INPUTS */
@@ -66,22 +91,34 @@
     <?php include('shared/navbar.html'); ?>
 
 
-    <!-- HERO SECTION -->
     <div class="hero">
         <h1>Contact Us</h1>
         <p>We are here to help and answer any question</p>
     </div>
 
-    <!-- MAIN SECTION -->
     <div class="container my-5">
         <div class="row g-4">
 
-            <!-- FORM -->
             <div class="col-lg-7">
                 <div class="card-box">
                     <h4 class="mb-3">Send Us a Message</h4>
 
-                    <form action="send_mail.php" method="POST">
+                    <?php if (isset($_GET['success'])): ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Ujumbe Umepokelewa!</strong> Tutaufanyia kazi na kukujibu hivi punde.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <?php endif; ?>
+
+                    <?php if (isset($_GET['error'])): ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Imeshindikana!</strong> Kuna tatizo limetokea wakati wa kutuma ujumbe. Jaribu tena.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <?php endif; ?>
+
+
+                    <form action="contact_process.php" method="POST">
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -108,14 +145,51 @@
                                 required></textarea>
                         </div>
 
-                        <button class="btn btn-send w-100">
-                            <i class="bi bi-send"></i> Send Message
+                        <button type="submit" name="send_message" class="btn btn-send w-100">
+                            <i class="bi bi-send"></i>Send Message
                         </button>
                     </form>
                 </div>
+
+                <div class="card-box">
+                    <h4 class="mb-3">
+                        <i class="bi bi-chat-left-text text-primary"></i>
+                        Message History
+                    </h4>
+
+                    <?php foreach ($messages as $msg): ?>
+                    <div class="border-bottom pb-3 mb-3">
+
+                        <div class="d-flex justify-content-between">
+                            <strong><?= htmlspecialchars($msg['subject']) ?></strong>
+
+                            <?php if($msg['status'] === 'replied'): ?>
+                            <span class="badge bg-success">Replied</span>
+                            <?php else: ?>
+                            <span class="badge bg-warning text-dark">Pending</span>
+                            <?php endif; ?>
+                        </div>
+
+                        <p class="mt-2 mb-2">
+                            <?= htmlspecialchars($msg['message']) ?>
+                        </p>
+
+                        <?php if(!empty($msg['reply'])): ?>
+                        <div class="alert alert-primary py-2">
+                            <strong>Admin Reply:</strong>
+                            <?= htmlspecialchars($msg['reply']) ?>
+                        </div>
+                        <?php endif; ?>
+
+                        <small class="text-muted">
+                            <?= $msg['created_at'] ?>
+                        </small>
+
+                    </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
 
-            <!-- CONTACT INFO -->
             <div class="col-lg-5">
 
                 <div class="card-box mb-4">
@@ -123,13 +197,12 @@
 
                     <div class="info mt-3">
                         <p><i class="bi bi-geo-alt"></i> Dar es Salaam, Tanzania</p>
-                        <p><i class="bi bi-telephone"></i> +255 700 000 000</p>
-                        <p><i class="bi bi-envelope"></i> info@healthsystem.com</p>
+                        <p><i class="bi bi-telephone"></i> +255 683 296 637</p>
+                        <p><i class="bi bi-envelope"></i> online-labo@healthsystem.com</p>
                         <p><i class="bi bi-clock"></i> 24/7 Support Available</p>
                     </div>
                 </div>
 
-                <!-- MAP -->
                 <div class="card-box">
                     <iframe src="https://maps.google.com/maps?q=dar%20es%20salaam&t=&z=13&ie=UTF8&iwloc=&output=embed"
                         width="100%" height="250" style="border:0; border-radius:10px;">
@@ -140,7 +213,6 @@
 
         </div>
     </div>
-    <!-- INCLUDE FOOTER -->
     <?php include('shared/footer.html'); ?>
 
 </body>

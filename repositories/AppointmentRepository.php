@@ -198,4 +198,32 @@ class AppointmentRepository
         $row = $stmt->get_result()->fetch_assoc();
         return (int) ($row['total'] ?? 0);
     }
+    /**
+ * Get appointment by ID used for payment processing and other operations. afterwards, you can use 
+ * the appointment ID to retrieve related payment information.
+ * so this work together with the PaymentRepository to manage payments for appointments.
+ * without this method, you would have to query the database directly to get the appointment details before processing a payment.
+ */
+public function getById(int $id): ?array
+{
+    $sql = "
+        SELECT *
+        FROM appointments
+        WHERE id = ?
+        LIMIT 1
+    ";
+
+    $stmt = $this->conn->prepare($sql);
+
+    $stmt->bind_param(
+        'i',
+        $id
+    );
+
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+
+    return $result->fetch_assoc() ?: null;
+}
 }

@@ -9,7 +9,7 @@
         <div class="sidebar">
             <?php
             $role = $_SESSION['role'] ?? 'patient';
-            // Tumesahihisha path hapa chini
+            //  path sahihi hapa chini
             $sidebar_file = __DIR__ . "/../sidebars/$role.php";
             
             if(file_exists($sidebar_file)){

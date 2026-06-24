@@ -7,15 +7,18 @@ $results = $resultRepo->getByPatientUserId(getCurrentUserId());
 <div class="container-fluid py-2">
     <?php flashMessage(); ?>
 
-    <div class="card shadow border-0">
+    <div class="card shadow-sm border-0 rounded-4">
         <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">My Test Results</h5>
+            <h5 class="mb-0">
+                <i class="bi bi-file-earmark-medical"></i>
+                My Test Results
+            </h5>
         </div>
-        <div class="card-body">
-            <table class="table table-hover align-middle">
+        <div class="card-body bg-primary text-dark rounded-top-4">
+            <table class="table table-hover align-middle mb-0">
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th>#</th>s
                         <th>Appointment</th>
                         <th>Date</th>
                         <th>Status</th>
@@ -25,7 +28,21 @@ $results = $resultRepo->getByPatientUserId(getCurrentUserId());
                 <tbody>
                     <?php if (empty($results)): ?>
                     <tr>
-                        <td colspan="5" class="text-center text-muted py-4">No test results yet.</td>
+                        <td colspan="5" class="text-center text-muted py-4">
+                            <div class="py-5">
+
+                                <i class="bi bi-file-earmark-x fs-1 text-muted"></i>
+
+                                <h5 class="mt-3">
+                                    No test results yet
+                                </h5>
+
+                                <p class="text-muted">
+                                    Your laboratory results will appear here.
+                                </p>
+
+                            </div>
+                        </td>
                     </tr>
                     <?php else: ?>
                     <?php foreach ($results as $i => $row): ?>
@@ -36,22 +53,41 @@ $results = $resultRepo->getByPatientUserId(getCurrentUserId());
                     ?>
                     <tr>
                         <td><?= $i + 1 ?></td>
+
                         <td>#<?= e((string) $row['appointment_id']) ?> — <?= e($testNames) ?></td>
+
                         <td><?= e($dateLabel) ?></td>
-                        <td><span class="badge <?= statusBadge($row['status']) ?>"><?= e(ucfirst($row['status'])) ?></span></td>
+
+                        <td>
+                            <span class="badge <?= statusBadge($row['status']) ?>px-3 py-2 ">
+                                <i class="bi bi-circle-fill me-1 small"></i>
+                                <?= e(ucfirst($row['status'])) ?>
+                            </span>
+                        </td>
+
                         <td class="d-flex gap-1 flex-wrap">
-                            <button class="btn btn-sm btn-info"
-                                onclick='openView(<?= json_encode($testNames) ?>, <?= json_encode($remarks) ?>, <?= json_encode($dateLabel) ?>)'>
+                            <button class="btn btn-sm btn-info" onclick='openView(
+                                <?= json_encode($testNames) ?>,
+                                <?= json_encode($remarks) ?>,
+                                <?= json_encode($dateLabel) ?>
+                                )'>
                                 <i class="bi bi-eye"></i>
+                                view
                             </button>
+
                             <?php if (!empty($row['result_file'])): ?>
                             <a href="../<?= e($row['result_file']) ?>" target="_blank" class="btn btn-sm btn-success">
                                 <i class="bi bi-file-earmark-pdf"></i>
+                                PDF
                             </a>
+
                             <?php endif; ?>
-                            <button class="btn btn-sm btn-primary"
-                                onclick="shareWhatsApp('<?= e($testNames) ?> result is ready.')">
+                            <button class="btn btn-sm btn-primary" onclick="shareWhatsApp('
+                                <?= e($testNames.'result is ready.') ?> 
+                                )">
                                 <i class="bi bi-whatsapp"></i>
+                                Share
+
                             </button>
                         </td>
                     </tr>

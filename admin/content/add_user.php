@@ -12,7 +12,7 @@
 
     <tr>
         <td>1</td>
-        <td>John Doe</td>
+        <td>Maria Samwel</td>
         <td>Doctor</td>
         <td>
             <a href="edit_user.php?id=1" class="btn btn-warning btn-sm">Edit</a>
