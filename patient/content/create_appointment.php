@@ -1,4 +1,22 @@
 <?php
+$rebookId = (int)($_GET['rebook'] ?? 0);
+
+$oldAppointment = null;
+$oldTests = [];
+
+$appointmentRepo = new AppointmentRepository($conn);
+
+if($rebookId > 0){
+    $oldAppointment = $appointmentRepo->getById($rebookId);
+    
+    
+    if($oldAppointment){
+        $oldTests = $appointmentRepo->getTestsByAppointmentId($rebookId);
+    }
+
+}
+
+
 $labRepo = new LaboratoryRepository($conn);
 $labTestRepo = new LabTestRepository($conn);
 $userRepo = new UserRepository($conn);
@@ -15,7 +33,7 @@ $patientName = $_SESSION['full_name'] ?? 'Patient';
 
             <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
 
-                <div class="card-header bg-lab-gradient border-0 p-4 text-white text-center">
+                <div class="card-header welcome-card bg-lab-gradient border-0 p-4 text-white text-center">
                     <h3 class="mb-1 fw-bold">Book Lab Appointment</h3>
                     <p class="mb-0 opacity-75">Fill in the details to schedule your test</p>
                 </div>
@@ -24,6 +42,11 @@ $patientName = $_SESSION['full_name'] ?? 'Patient';
                     <?php flashMessage(); ?>
 
                     <form method="POST" action="../actions/patient/create_appointment_process.php">
+                        <?php if($rebookId): ?>
+
+                        <input type="hidden" name="rebook_id" value="<?= $rebookId ?>">
+
+                        <?php endif; ?>
 
                         <div class="d-flex align-items-center gap-3 mb-4">
                             <div class="icon-box rounded-3 d-flex align-items-center justify-content-center">
@@ -58,24 +81,29 @@ $patientName = $_SESSION['full_name'] ?? 'Patient';
                                 <select name="laboratory_id" class="form-select rounded-3 py-2" required>
                                     <option value="">-- Choose Laboratory --</option>
                                     <?php foreach ($laboratories as $lab): ?>
-                                    <option value="<?= e((string) $lab['id']) ?>">
-                                        <?= e($lab['labo_name']) ?> (<?= e($lab['location']) ?>)
+                                    <option value="<?= e((string) $lab['id']) ?>"
+                                        <?php if ($oldAppointment && $oldAppointment['laboratory_id'] == $lab['id']): ?>selected<?php endif; ?>>
+                                        <?= e($lab['labo_name']) ?>
+                                        (<?= e($lab['location']) ?>)
+                                    </option>
+                                    <?php endforeach; ?>
+
+                                </select>
+                            </div>
+                            <div class=" col-md-6">
+                                <label class="small text-muted mb-1">Doctor (Optional)</label>
+                                <select name="doctor_id" class="form-select rounded-3 py-2">
+                                    <option value="">-- No Doctor --</option>
+                                    <?php foreach ($doctors as $doc): ?>
+                                    <option value="<?= e((string) $doc['id']) ?>"><?= e($doc['full_name']) ?>
                                     </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="small text-muted mb-1">Doctor (Optional)</label>
-                                <select name="doctor_id" class="form-select rounded-3 py-2">
-                                    <option value="">-- No Doctor --</option>
-                                    <?php foreach ($doctors as $doc): ?>
-                                    <option value="<?= e((string) $doc['id']) ?>"><?= e($doc['full_name']) ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
                                 <label class="small text-muted mb-1">Collection Type</label>
-                                <select class="form-select rounded-3 py-2" name="sample_collection" id="serviceType" required>
+                                <select class="form-select rounded-3 py-2" name="sample_collection" id="serviceType"
+                                    required>
                                     <option value="lab">Walk-in Visit (Lab)</option>
                                     <option value="home">Home Collection</option>
                                 </select>
@@ -100,17 +128,31 @@ $patientName = $_SESSION['full_name'] ?? 'Patient';
                             <label class="small text-muted mb-2 d-block">Select Lab Tests</label>
                             <div class="row g-2">
                                 <?php foreach ($tests as $test): ?>
+
                                 <div class="col-md-6">
+
                                     <div class="form-check border rounded p-2">
+
                                         <input class="form-check-input" type="checkbox" name="test_ids[]"
-                                            value="<?= e((string) $test['id']) ?>" id="test<?= e((string) $test['id']) ?>">
-                                        <label class="form-check-label" for="test<?= e((string) $test['id']) ?>">
+                                            value="<?= e((string)$test['id']) ?>" id="test<?= e((string)$test['id']) ?>"
+                                            <?phpif($oldAppointment && in_array($test['id'],$oldTests)){ echo "checked";}?>>
+                                        <label class="form-check-label" for="test<?= e((string)$test['id']) ?>">
+
                                             <?= e($test['test_name']) ?>
-                                            <small class="text-muted">(<?= number_format((float) $test['price'], 0) ?> TZS)</small>
+
+                                            <small class="text-muted">
+                                                (<?= number_format((float)$test['price'],0) ?> TZS)
+                                            </small>
+
                                         </label>
+
+
                                     </div>
+
                                 </div>
+
                                 <?php endforeach; ?>
+
                             </div>
                         </div>
 
@@ -121,7 +163,7 @@ $patientName = $_SESSION['full_name'] ?? 'Patient';
                         </div>
 
                         <button type="submit"
-                            class="btn btn-info w-100 py-3 text-white fw-bold rounded-3 shadow-sm mt-3">
+                            class="btn btn-info welcome-card w-100 py-3 text-white fw-bold rounded-3 shadow-sm mt-3">
                             <i class="bi bi-check2-circle me-2"></i>Confirm Appointment
                         </button>
                     </form>

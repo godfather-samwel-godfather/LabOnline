@@ -8,21 +8,34 @@ $results = $resultRepo->getByPatientUserId(getCurrentUserId());
     <?php flashMessage(); ?>
 
     <div class="card shadow-sm border-0 rounded-4">
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">
-                <i class="bi bi-file-earmark-medical"></i>
-                My Test Results
-            </h5>
+        <!-- Welcome Header -->
+        <div class="card welcome-card text-white shadow border-0 mb-4">
+
+            <div class="card-body p-5">
+
+                <h2 class="fw-bold mb-2">
+                    <i class="bi bi-file-earmark-medical me-2"></i>
+                    My Test Results
+                </h2>
+
+                <p class="mb-0 text-muted">
+                    Access your laboratory reports, review completed test results, and download your medical reports
+                    securely anytime, anywhere.
+                </p>
+
+            </div>
+
         </div>
-        <div class="card-body bg-primary text-dark rounded-top-4">
-            <table class="table table-hover align-middle mb-0">
+
+        <div class="card-body bg-white text-dark rounded-top-4">
+            <table class="table table-hover align-middle  mb-0">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Appointment</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <th class="text-start">#</th>
+                        <th>Appointment ID</th>
+                        <th>Uploaded Date</th>
+                        <th class="text-center">Results Status</th>
+                        <th class="text-end">Patient Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,20 +65,20 @@ $results = $resultRepo->getByPatientUserId(getCurrentUserId());
                         $dateLabel = formatDate($row['uploaded_at']);
                     ?>
                     <tr>
-                        <td><?= $i + 1 ?></td>
+                        <td class="ps-3"><?= $i + 1 ?></td>
 
                         <td>#<?= e((string) $row['appointment_id']) ?> — <?= e($testNames) ?></td>
 
                         <td><?= e($dateLabel) ?></td>
 
-                        <td>
-                            <span class="badge <?= statusBadge($row['status']) ?> text-dark px-3 py-2 ">
-                                <i class="bi bi-circle-fill me-1 small"></i>
+                        <td class="text-center">
+                            <span class=" badge <?= statusBadge($row['status']) ?> text-dark px-3 py-2 ">
+                                <i class=" bi bi-circle-fill me-1 small"></i>
                                 <?= e(ucfirst($row['status'])) ?>
                             </span>
                         </td>
 
-                        <td class="d-flex gap-1 flex-wrap">
+                        <td class="d-flex gap-1 justify-content-end pe-3 ">
                             <button class="btn btn-sm btn-info" onclick='openView(
                                 <?= json_encode($testNames) ?>,
                                 <?= json_encode($remarks) ?>,

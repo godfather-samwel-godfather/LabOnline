@@ -3,7 +3,46 @@ $userRepo = new UserRepository($conn);
 $users = $userRepo->getAll();
 ?>
 
-<h4 class="mb-3">Manage Users</h4>
+<!-- ================= WELCOME CARD ================= -->
+
+<div class="welcome-card shadow-lg rounded-4 mb-4 p-5">
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+
+
+        <div>
+
+            <h2 class="fw-bold mb-2 text-white">
+
+                <i class="bi bi-people-fill me-2"></i>
+
+                Manage Users
+
+            </h2>
+
+
+            <p class="mb-0 text-white text-muted">
+
+                Manage hospital accounts, patients,
+                laboratory staff and user permissions.
+
+            </p>
+
+
+        </div>
+
+
+
+        <div class="welcome-icon">
+
+            <i class="bi bi-person-badge-fill"></i>
+
+        </div>
+
+
+    </div>
+
+</div>
 <?php flashMessage(); ?>
 
 <div class="table-responsive">

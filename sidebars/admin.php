@@ -30,6 +30,13 @@ require_once __DIR__ . '/../includes/helpers.php';
                 <span>Lab Tests</span>
             </a>
 
+            <a href="dashboard.php?page=add_new_tests"
+                class="menu-item <?= sidebarActive('add_new_tests', $current_page) ?>">
+                <i class="bi bi-plus-circle"></i>
+                <span>Add New Tests</span>
+            </a>
+
+
             <a href="dashboard.php?page=contact_messages"
                 class="menu-item <?= sidebarActive('contact_messages', $current_page) ?>">
                 <i class="bi bi-chat-text"></i>

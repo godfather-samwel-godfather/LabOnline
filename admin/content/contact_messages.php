@@ -11,9 +11,47 @@ $messagesResults = $contactAction->getAllMessages();
 
 <div class="container-fluid px-4 py-4">
     <div class="card shadow-sm border-0 mb-4" style="border-radius: 12px;">
-        <div class="card-header bg-primary text-white py-3">
-            <h5 class="mb-0"><i class="bi bi-envelope-paper-fill me-2"></i> Contact Messages</h5>
+
+        <!-- ================= WELCOME CARD ================= -->
+        <div class="welcome-card shadow-lg rounded-4 mb-4 p-5">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+
+
+                <div>
+
+                    <h2 class="fw-bold mb-2 text-white">
+
+                        <i class="bi bi-envelope-paper-fill me-2"></i>
+
+                        Contact Messages
+
+                    </h2>
+
+
+                    <p class="mb-0 text-white text-muted">
+
+                        Manage customer inquiries,
+                        read messages and send professional replies.
+
+                    </p>
+
+
+                </div>
+
+
+
+                <div class="welcome-icon">
+
+                    <i class="bi bi-chat-dots-fill"></i>
+
+                </div>
+
+
+            </div>
+
         </div>
+
+
         <div class="card-body bg-white p-4">
 
             <?php if ($messagesResults && $messagesResults->num_rows > 0): ?>

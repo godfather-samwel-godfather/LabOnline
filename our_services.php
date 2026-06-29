@@ -1,14 +1,28 @@
+<?php
+require_once 'includes/helpers.php';
+require_once 'config/db.php';
+require_once 'repositories/LabTestRepository.php';
+
+$labTestRepo = new LabTestRepository($conn);
+$tests = $labTestRepo->getAllWithCategory();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Our Services</title>
 
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
     <link rel="stylesheet" href="assets/css/style.css">
 
 
@@ -17,217 +31,562 @@
         background: #f5f7fb;
     }
 
+
     /* HERO */
+
     .hero {
-        background: linear-gradient(rgba(0, 0, 80, 0.7), rgba(0, 0, 80, 0.7)),
+
+        background:
+            linear-gradient(rgba(0, 0, 80, .7), rgba(0, 0, 80, .7)),
             url("assets/images/labo.jpg");
+
         background-size: cover;
+
         background-position: center;
+
         color: white;
-        padding: 80px 20px;
+
+        padding: 90px 20px;
+
         text-align: center;
+
     }
+
+
+
 
     /* CARD */
+
     .service-card {
-        background: #fff;
-        border-radius: 15px;
-        padding: 25px;
+
+        background: white;
+
+        border-radius: 20px;
+
+        padding: 30px 25px;
+
         text-align: center;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        transition: all 0.4s ease;
+
+        box-shadow: 0 8px 25px rgba(0, 0, 0, .08);
+
+        transition: .4s;
+
+        height: 100%;
+
     }
+
+
 
     .service-card:hover {
-        transform: translateY(-10px);
+
+        transform: translateY(-12px);
+
+        box-shadow: 0 15px 35px rgba(0, 0, 0, .15);
+
     }
 
-    /* SEARCH */
-    .search-box {
-        max-width: 400px;
-        margin: 0 auto;
+
+
+
+
+    .service-icon {
+
+        width: 80px;
+
+        height: 80px;
+
+        margin: auto;
+
+        border-radius: 50%;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        background: #eaf2ff;
+
+    }
+
+
+
+    .service-icon i {
+
+        font-size: 40px;
+
+    }
+
+
+
+
+
+    .price-box {
+
+        font-size: 18px;
+
+        font-weight: bold;
+
+        color: #0d6efd;
+
+    }
+
+
+
+
+
+    .book-btn {
+
         border-radius: 25px;
+
+        padding: 8px 25px;
+
     }
 
-    /* FILTER BUTTONS */
+
+
+
+
+
+    .search-box {
+
+        max-width: 400px;
+
+        margin: auto;
+
+        border-radius: 25px;
+
+    }
+
+
+
     .filter-btn {
+
         margin: 5px;
+
         border-radius: 20px;
+
     }
 
-    /* ACTIVE BUTTON */
+
+
     .active-btn {
+
         background: #0d6efd !important;
+
         color: white !important;
+
     }
 
-    /* SHOW */
+
+
     .show {
+
         opacity: 1;
+
         transform: scale(1);
-        transition: all 0.4s ease;
-        position: relative;
+
+        transition: .4s;
+
     }
 
-    /* HIDE */
+
+
     .hide {
-        opacity: 0;
-        transform: scale(0.85);
-        pointer-events: none;
-        position: absolute;
+
+        display: none;
+
     }
     </style>
 
+
 </head>
 
+
 <body>
+
+
     <?php include('shared/navbar.html'); ?>
 
 
+
     <!-- HERO -->
+
     <div class="hero">
+
         <h1>Our Services</h1>
-        <p>Search and filter services easily</p>
+
+        <p>Reliable laboratory and patient care services</p>
+
     </div>
 
+
+
+
+
     <!-- SEARCH -->
+
     <div class="container my-4 text-center">
+
 
         <input type="text" id="searchInput" class="form-control search-box" placeholder="Search services..."
             onkeyup="searchService()">
 
+
     </div>
 
-    <!-- FILTER BUTTONS -->
+
+
+
+
+    <!-- FILTER -->
+
     <div class="container text-center">
 
-        <button class="btn btn-primary filter-btn active-btn" onclick="filterService('all', this)">All</button>
-        <button class="btn btn-outline-primary filter-btn" onclick="filterService('lab', this)">Lab</button>
-        <button class="btn btn-outline-primary filter-btn" onclick="filterService('doctor', this)">Doctor</button>
-        <button class="btn btn-outline-primary filter-btn" onclick="filterService('emergency', this)">Emergency</button>
-        <button class="btn btn-outline-success filter-btn" onclick="filterService('patient', this)">Patient</button>
-        <button class="btn btn-outline-warning filter-btn" onclick="filterService('pharmacy', this)">Pharmacy</button>
+
+        <button class="btn btn-primary filter-btn active-btn" onclick="filterService('all',this)">
+            All
+        </button>
+
+
+
+        <button class="btn btn-outline-primary filter-btn" onclick="filterService('lab',this)">
+            Lab Tests
+        </button>
+
+
+
+        <button class="btn btn-outline-success filter-btn" onclick="filterService('patient',this)">
+            Patient
+        </button>
+
+
+
+        <button class="btn btn-outline-danger filter-btn" onclick="filterService('emergency',this)">
+            Emergency
+        </button>
+
+
 
     </div>
+
+
+
+
+
 
     <!-- SERVICES -->
-    <div class="container my-4">
+
+    <div class="container my-5">
+
+
         <div class="row g-4">
 
+
+
+
+
+            <!-- DATABASE LAB TESTS -->
+
+
+            <?php foreach($tests as $test): ?>
+
+
             <div class="col-lg-4 service-item lab">
+
+
                 <div class="service-card">
-                    <i class="bi bi-droplet-half fs-1 text-primary"></i>
-                    <h5 class="mt-3">Blood Test</h5>
-                    <p>Accurate lab testing services.</p>
+
+
+                    <div class="service-icon">
+
+                        <i class="bi bi-droplet-half text-primary"></i>
+
+                    </div>
+
+
+
+                    <h5 class="mt-4">
+
+                        <?= e($test['test_name']) ?>
+
+                    </h5>
+
+
+
+                    <span class="badge bg-primary">
+
+                        <?= e($test['category_name'] ?? '-') ?>
+
+                    </span>
+
+
+
+                    <p class="mt-3">
+
+                        <?= e($test['description']) ?>
+
+                    </p>
+
+
+
+                    <div class="price-box">
+
+                        <?= number_format($test['price']) ?> TZS
+
+                    </div>
+
+
+
+                    <p class="text-muted">
+
+                        <i class="bi bi-clock"></i>
+
+                        <?= e($test['duration']) ?>
+
+                    </p>
+
+
+
+                    <button class="btn btn-primary book-btn">
+
+                        Book Test
+
+                    </button>
+
+
+
                 </div>
+
+
             </div>
 
-            <div class="col-lg-4 service-item doctor">
+
+
+            <?php endforeach; ?>
+
+
+
+
+
+
+
+
+            <!-- PATIENT CARE -->
+
+
+            <div class="col-lg-4 service-item patient">
+
+
                 <div class="service-card">
-                    <i class="bi bi-heart-pulse fs-1 text-primary"></i>
-                    <h5 class="mt-3">Doctor Consultation</h5>
-                    <p>Professional medical advice anytime.</p>
+
+
+                    <div class="service-icon">
+
+                        <i class="bi bi-person-heart text-success"></i>
+
+                    </div>
+
+
+
+                    <h5 class="mt-4">
+
+                        Patient Care
+
+                    </h5>
+
+
+
+                    <p>
+
+                        High quality care and support for patients.
+
+                    </p>
+
+
+
+                    <a href="" class="btn btn-success book-btn">
+
+                        Learn More
+
+                    </a>
+
+
+
                 </div>
+
+
             </div>
+
+
+
+
+
+
+
+
+            <!-- EMERGENCY -->
+
 
             <div class="col-lg-4 service-item emergency">
+
+
                 <div class="service-card">
-                    <i class="bi bi-hospital fs-1 text-danger"></i>
-                    <h5 class="mt-3">Emergency Care</h5>
-                    <p>24/7 emergency support services.</p>
+
+
+                    <div class="service-icon">
+
+                        <i class="bi bi-hospital text-danger"></i>
+
+                    </div>
+
+
+
+                    <h5 class="mt-4">
+
+                        Emergency Care
+
+                    </h5>
+
+
+
+                    <p>
+
+                        24/7 emergency medical support services.
+
+                    </p>
+
+
+
+                    <a href="contact_us.php" class="btn btn-danger book-btn">
+
+                        Contact Now
+
+                    </a>
+
+
+
                 </div>
+
+
             </div>
 
-            <div class="col-lg-4 service-item lab">
-                <div class="service-card">
-                    <i class="bi bi-file-medical fs-1 text-primary"></i>
-                    <h5 class="mt-3">Medical Reports</h5>
-                    <p>Secure patient records system.</p>
-                </div>
-            </div>
 
-            <div class="col-lg-4 service-item doctor">
-                <div class="service-card">
-                    <i class="bi bi-calendar-check fs-1 text-primary"></i>
-                    <h5 class="mt-3">Book Appointments</h5>
-                    <p>Book doctors online easily.</p>
-                </div>
-            </div>
 
-            <!-- NEW: PATIENT -->
-            <div class="col-lg-4 service-item patient">
-                <div class="service-card">
-                    <i class="bi bi-person-heart fs-1 text-success"></i>
-                    <h5 class="mt-3">Patient Care</h5>
-                    <p>High quality care for patients.</p>
-                </div>
-            </div>
 
-            <!-- NEW: PHARMACY -->
-            <div class="col-lg-4 service-item pharmacy">
-                <div class="service-card">
-                    <i class="bi bi-capsule-pill fs-1 text-warning"></i>
-                    <h5 class="mt-3">Pharmacy</h5>
-                    <p>Safe and trusted medicines.</p>
-                </div>
-            </div>
+
 
         </div>
+
+
     </div>
+
+
+
+
+
+
     <?php include('shared/footer.html'); ?>
 
 
-    <!-- JAVASCRIPT -->
+
+
+
+
     <script>
     let currentCategory = "all";
+
     let activeBtn = null;
 
-    /* FILTER */
+
+
     function filterService(category, btn) {
+
 
         currentCategory = category;
 
-        // ACTIVE BUTTON STYLE
+
+
         if (activeBtn) {
+
             activeBtn.classList.remove("active-btn");
-            activeBtn.classList.add("btn-outline-primary");
+
         }
 
-        if (btn) {
-            btn.classList.add("active-btn");
-            activeBtn = btn;
-        }
+
+        btn.classList.add("active-btn");
+
+
+        activeBtn = btn;
+
 
         applyFilters();
+
+
     }
 
-    /* SEARCH */
+
+
+
     function searchService() {
+
         applyFilters();
+
     }
 
-    /* COMBINED FILTER */
+
+
+
+
     function applyFilters() {
 
-        let input = document.getElementById("searchInput").value.toLowerCase();
+
+        let input = document
+            .getElementById("searchInput")
+            .value
+            .toLowerCase();
+
+
+
         let items = document.querySelectorAll(".service-item");
+
+
 
         items.forEach(item => {
 
+
             let text = item.innerText.toLowerCase();
-            let categoryMatch = currentCategory === "all" || item.classList.contains(currentCategory);
-            let searchMatch = text.includes(input);
+
+
+            let categoryMatch =
+                currentCategory === "all" ||
+                item.classList.contains(currentCategory);
+
+
+
+            let searchMatch =
+                text.includes(input);
+
+
 
             if (categoryMatch && searchMatch) {
+
                 item.classList.remove("hide");
-                item.classList.add("show");
+
             } else {
-                item.classList.remove("show");
+
                 item.classList.add("hide");
+
             }
+
+
         });
+
+
     }
     </script>
+
+
 
 </body>
 

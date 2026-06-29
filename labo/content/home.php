@@ -1,133 +1,261 @@
-<h4 class="mb-4">Laboratory Dashboard</h4>
+<!-- Welcome Card -->
+<div class="card welcome-card border-0 shadow mb-4 text-white" style="">
+
+    <div class="card-body p-5">
+
+        <div class="row align-items-center">
+
+            <div class="col-md-8">
+
+                <span class="badge bg-light text-primary mb-3 px-3 py-2">
+                    <i class="bi bi-flask"></i>
+                    Laboratory Dashboard
+                </span>
+
+                <h2 class="fw-bold mb-3">
+                    Welcome Back 👋
+                </h2>
+
+                <p class="mb-4 fs-5">
+                    Manage laboratory requests, approve appointments, upload
+                    patient test results and monitor daily laboratory activities.
+                </p>
+
+                <div class="d-flex flex-wrap gap-2">
+
+                    <a href="?page=test_requests" class="btn btn-light rounded-pill px-4">
+
+                        <i class="bi bi-clipboard-check"></i>
+                        View Requests
+
+                    </a>
+
+                    <a href="?page=upload_results" class="btn btn-outline-light rounded-pill px-4">
+
+                        <i class="bi bi-cloud-upload"></i>
+                        Upload Results
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4 text-center d-none d-md-block">
+
+                <i class="bi bi-hospital display-1 text-white opacity-75"></i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <?php
+
 $labRepo = new LaboratoryRepository($conn);
 $appointmentRepo = new AppointmentRepository($conn);
+
+
 $labId = $labRepo->getIdByUserId(getCurrentUserId());
 
-$pendingCount = $labId ? $appointmentRepo->countByLaboratoryAndStatus($labId, 'pending') : 0;
-$completedCount = $labId ? $appointmentRepo->countByLaboratoryAndStatus($labId, 'completed') : 0;
-$approvedCount = $labId ? $appointmentRepo->countByLaboratoryAndStatus($labId, 'approved') : 0;
-$totalRequests = $pendingCount + $approvedCount + $completedCount;
-$requests = $labId ? $appointmentRepo->getByLaboratoryId($labId, ['pending', 'approved']) : [];
+
+
+// Activities
+
+$activityRepo = new ActivityLogRepository($conn);
+
+$activities = $labId
+? $activityRepo->getByLaboratoryId($labId)
+: [];
+
+
+
+
+// Counts
+
+$pending =
+$labId ?
+$appointmentRepo->countByLaboratoryAndStatus($labId,'pending')
+:0;
+
+
+$approved =
+$labId ?
+$appointmentRepo->countByLaboratoryAndStatus($labId,'approved')
+:0;
+
+
+$completed =
+$labId ?
+$appointmentRepo->countByLaboratoryAndStatus($labId,'completed')
+:0;
+
+
+$rejected =
+$labId ?
+$appointmentRepo->countByLaboratoryAndStatus($labId,'rejected')
+:0;
+
+
+
+$total =
+$pending+$approved+$completed+$rejected;
+
+
+
+// Requests
+
+$requests =$labId ?$appointmentRepo->getByLaboratoryId($labId,['pending','approved','completed','rejected']):[];
+
+
+
 ?>
+
 
 <?php flashMessage(); ?>
 
-<!-- TOP CARDS -->
+
+
+
+<!-- CARDS -->
+
+<div class="row g-3 mb-4">
+
+
+    <?php
+
+$cards=[
+
+['Pending',$pending,'warning','bi-hourglass-split'],
+
+['Approved',$approved,'primary','bi-check-circle'],
+
+['Rejected',$rejected,'danger','bi-x-circle'],
+
+['Completed',$completed,'success','bi-check-all'],
+
+['Total',$total,'info','bi-clipboard-data']
+
+];
+
+
+foreach($cards as $c):
+
+?>
+    <div class="col-md-6 col-xl">
+
+
+        <div class="card shadow-sm border-0">
+
+
+            <div class="card-body">
+
+
+                <div class="d-flex justify-content-between">
+
+
+                    <div>
+
+                        <small class="text-muted">
+                            <?= $c[0] ?>
+                        </small>
+
+
+                        <h2 class="fw-bold">
+                            <?= $c[1] ?>
+                        </h2>
+
+
+                    </div>
+
+
+                    <div class="bg-<?= $c[2] ?> bg-opacity-10 rounded-circle p-3">
+
+
+                        <i class="bi <?= $c[3] ?> fs-3 text-<?= $c[2] ?>"></i>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <?php endforeach; ?>
+
+
+</div>
+
+
+
 <div class="row g-3">
 
-    <div class="col-12 col-sm-6 col-lg-3">
-        <div class="card shadow-sm p-3 border-0 bg-warning text-white">
-            <h6>Pending Tests</h6>
-            <h3><?= $pendingCount ?></h3>
-        </div>
-    </div>
 
-    <div class="col-12 col-sm-6 col-lg-3">
-        <div class="card shadow-sm p-3 border-0 bg-success text-white">
-            <h6>Completed</h6>
-            <h3><?= $completedCount ?></h3>
-        </div>
-    </div>
-
-    <div class="col-12 col-sm-6 col-lg-3">
-        <div class="card shadow-sm p-3 border-0 bg-primary text-white">
-            <h6>Approved</h6>
-            <h3><?= $approvedCount ?></h3>
-        </div>
-    </div>
-
-    <div class="col-12 col-sm-6 col-lg-3">
-        <div class="card shadow-sm p-3 border-0 bg-dark text-white">
-            <h6>Total Requests</h6>
-            <h3><?= $totalRequests ?></h3>
-        </div>
-    </div>
-
-</div>
-
-<!-- MAIN DASHBOARD LAYOUT -->
-<div class="row g-3 mt-1">
-
-    <!-- LEFT SIDE (MAIN CONTENT) -->
+    <!-- REQUESTS -->
     <div class="col-lg-8">
 
-        <!-- RECENT TEST REQUESTS -->
-        <div class="card p-3 shadow-sm">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <h5>
+                    Recent Test Requests
+                </h5>
 
-            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                <h5>Recent Test Requests</h5>
+                <div class="table-responsive mt-3">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Patient</th>
+                                <th>Test</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
 
-                <input type="text" class="form-control w-auto" placeholder="Search patient...">
-            </div>
+                        <tbody>
+                            <?php foreach(array_slice($requests,0,6) as $row): ?>
 
-            <div class="table-responsive">
+                            <tr>
+                                <td>
+                                    <?= e($row['patient_name']); ?>
+                                </td>
 
-                <table class="table table-striped mt-3">
+                                <td>
+                                    <?= e($row['test_name'] ?? 'No test'); ?>
+                                </td>
 
-                    <thead>
-                        <tr>
-                            <th>Patient</th>
-                            <th>Test</th>
-                            <th>Priority</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
+                                <td>
+                                    <span class="badge <?= statusBadge($row['status']); ?>">
 
-                    <tbody>
+                                        <?= ucfirst($row['status']); ?>
 
-                        <?php if (empty($requests)): ?>
-                        <tr>
-                            <td colspan="6" class="text-center text-muted py-4">No recent requests.</td>
-                        </tr>
-                        <?php else: ?>
-                        <?php foreach (array_slice($requests, 0, 5) as $row): ?>
-                        <tr>
-                            <td><?= e($row['patient_name']) ?></td>
-                            <td>Lab Test</td>
-                            <td>
-                                <span class="badge <?= $row['priority'] === 'urgent' ? 'bg-danger' : 'bg-success' ?>">
-                                    <?= e(ucfirst($row['priority'])) ?>
-                                </span>
-                            </td>
-                            <td>
-                                <span class="badge <?= statusBadge($row['status']) ?>">
-                                    <?= e(ucfirst($row['status'])) ?>
-                                </span>
-                            </td>
-                            <td><?= e(formatDate($row['appointment_date'])) ?></td>
-                            <td>
-                                <a href="?page=test_requests" class="btn btn-sm btn-primary">View</a>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                        <?php endif; ?>
+                                    </span>
+                                </td>
 
-                    </tbody>
+                                <td>
 
-                </table>
+                                    <?= formatDate($row['appointment_date']); ?>
 
-            </div>
+                                </td>
+                            </tr>
 
-        </div>
+                            <?php endforeach; ?>
 
-        <!-- SAMPLE PROGRESS -->
-        <div class="card mt-3 p-3 shadow-sm">
+                        </tbody>
+                    </table>
 
-            <h5>Sample Processing</h5>
-
-            <div class="mt-3">
-
-                <label>Blood Tests</label>
-                <div class="progress mb-3">
-                    <div class="progress-bar bg-success" style="width:80%">80%</div>
-                </div>
-
-                <label>Urine Tests</label>
-                <div class="progress">
-                    <div class="progress-bar bg-warning" style="width:45%">45%</div>
                 </div>
 
             </div>
@@ -136,59 +264,64 @@ $requests = $labId ? $appointmentRepo->getByLaboratoryId($labId, ['pending', 'ap
 
     </div>
 
-    <!-- RIGHT SIDE (SIDEBAR WIDGETS) -->
+    <!-- RIGHT -->
     <div class="col-lg-4">
 
-        <!-- RECENT ACTIVITY -->
-        <div class="card p-3 shadow-sm">
+        <div class="card shadow-sm border-0 mb-3">
+            <div class="card-body">
+                <h5>
+                    Notifications
+                </h5>
 
-            <h5>Recent Activity</h5>
+                <hr>
+                <p>
+                    🔔 New Requests:
+                    <b><?= $pending ?></b>
+                </p>
+                <p>
+                    ⚠ Rejected:
+                    <b><?= $rejected ?></b>
+                </p>
+                <p>
+                    📄 Results Ready:
+                    <b><?= $completed ?></b>
+                </p>
 
-            <ul class="list-group list-group-flush mt-2">
-
-                <li class="list-group-item">Blood Test completed for John Doe</li>
-                <li class="list-group-item">New Urgent Sample received</li>
-                <li class="list-group-item">Report uploaded successfully</li>
-                <li class="list-group-item">Malaria Test approved</li>
-
-            </ul>
-
+            </div>
         </div>
 
-        <!-- TODAY SCHEDULE -->
-        <div class="card mt-3 p-3 shadow-sm">
 
-            <h5>Today's Schedule</h5>
 
-            <div class="table-responsive">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <h5>
+                    Recent Activity
+                </h5>
 
-                <table class="table mt-3">
+                <ul class="list-group list-group-flush">
 
-                    <thead>
-                        <tr>
-                            <th>Time</th>
-                            <th>Patient</th>
-                            <th>Test</th>
-                        </tr>
-                    </thead>
 
-                    <tbody>
+                    <?php foreach(array_slice($activities,0,5) as $a): ?>
 
-                        <tr>
-                            <td>09:00 AM</td>
-                            <td>John Doe</td>
-                            <td>Blood Test</td>
-                        </tr>
 
-                        <tr>
-                            <td>11:00 AM</td>
-                            <td>Asha Mohamed</td>
-                            <td>Malaria Test</td>
-                        </tr>
+                    <li class="list-group-item">
 
-                    </tbody>
 
-                </table>
+                        <i class="bi bi-clock"></i>
+
+                        <?= e($a['action']); ?>
+
+
+                        <small class="d-block text-muted">
+                            <?= e($a['created_at']); ?>
+                        </small>
+
+                    </li>
+
+
+                    <?php endforeach; ?>
+
+                </ul>
 
             </div>
 
@@ -196,29 +329,111 @@ $requests = $labId ? $appointmentRepo->getByLaboratoryId($labId, ['pending', 'ap
 
     </div>
 
+
 </div>
 
-<!-- QUICK ACTIONS -->
-<div class="card mt-4 p-3 shadow-sm">
 
-    <h5>Quick Actions</h5>
+<!-- TODAY SCHEDULE -->
 
-    <div class="d-flex flex-wrap gap-2 mt-3">
 
-        <button class="btn btn-primary">+ Add Test Result</button>
-        <button class="btn btn-success">Upload Report</button>
-        <button class="btn btn-warning text-white">Pending Samples</button>
-        <button class="btn btn-danger">Rejected Samples</button>
+<div class="card shadow-sm border-0 mt-4">
+
+    <div class="card-body">
+        <h5>
+            Today's Schedule
+        </h5>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <!--loop to display today's appointments-->
+                <?php 
+                $today=date('Y-m-d');
+                foreach($requests as $r):
+                if($r['appointment_date']==$today):
+                ?> <tr>
+                    <td>
+                        <?= e($r['patient_name']); ?>
+                    </td>
+                    <td>
+                        <?= e($r['appointment_time']); ?>
+                    </td>
+
+                    <td>
+                        <?= ucfirst($r['status']); ?>
+                    </td>
+                </tr>
+
+                <?php endif; ?>
+
+                <?php endforeach; ?>
+            </tbody>
+        </table>
 
     </div>
 
 </div>
 
-<!-- ALERTS -->
-<div class="alert alert-danger mt-4">
-    2 urgent samples require immediate attention.
+<!-- DYNAMIC CHART -->
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+        <h5 class="mb-3">
+            Appointment Statistics
+        </h5>
+        <canvas id="appointmentChart"></canvas>
+    </div>
 </div>
 
-<div class="alert alert-success">
-    All completed reports uploaded successfully.
-</div>
+
+<!-- CHART JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const ctx = document.getElementById('appointmentChart');
+new Chart(ctx, {
+    type: 'bar',
+    //type ofdata to display
+    data: {
+        labels: [
+            'Pending',
+            'Approved',
+            'Completed',
+            'Rejected'
+        ],
+
+        datasets: [{
+            label: 'Appointments',
+            data: [
+                <?= $pending ?>,
+
+                <?= $approved ?>,
+
+                <?= $completed ?>,
+
+                <?= $rejected ?>
+            ]
+        }]
+    },
+
+
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>

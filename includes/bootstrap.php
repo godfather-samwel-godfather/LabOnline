@@ -11,13 +11,14 @@ require_once __DIR__ . '/helpers.php';
 require_once __DIR__ . '/session_user.php';
 
 
-// Repositories
+// Repositories we load on every page of the dashboard to this bootstrap file. This is for dependency injection and to avoid loading the same repository multiple times in different files.
 require_once __DIR__ . '/../repositories/UserRepository.php';
 require_once __DIR__ . '/../repositories/AppointmentRepository.php';
 require_once __DIR__ . '/../repositories/LaboratoryRepository.php';
 require_once __DIR__ . '/../repositories/LabTestRepository.php';
 require_once __DIR__ . '/../repositories/TestResultRepository.php';
 require_once __DIR__ . '/../repositories/ContactRepository.php';
+require_once __DIR__ . '/../repositories/ActivityLogRepository.php';
 
 
 // Actions for users or visitor on website

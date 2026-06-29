@@ -13,12 +13,12 @@ require_once __DIR__ . '/../includes/helpers.php';
 
         <a href="dashboard.php?page=test_requests"
             class="d-flex align-items-center gap-2 p-2 text-white text-decoration-none <?= sidebarActive('test_requests', $current_page) ?>">
-            <i class="bi bi-journal-text"></i><span>Test Requests</span>
+            <i class="bi bi-journal-text"></i><span>View Test Requests</span>
         </a>
 
         <a href="dashboard.php?page=upload_results"
             class="d-flex align-items-center gap-2 p-2 text-white text-decoration-none <?= sidebarActive('upload_results', $current_page) ?>">
-            <i class="bi bi-upload"></i><span>Upload Results</span>
+            <i class="bi bi-cloud-upload"></i><span>Upload Results</span>
         </a>
     </div>
     <div class="nav nav-pills flex-column mt-auto pb-5">

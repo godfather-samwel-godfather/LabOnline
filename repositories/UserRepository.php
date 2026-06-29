@@ -68,4 +68,54 @@ class UserRepository
         $result = $this->conn->query($sql);
         return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
     }
+    // Active users
+public function countActive(): int
+{
+    $result = $this->conn->query("
+        SELECT COUNT(*) AS total
+        FROM users
+        WHERE status='active'
+    ");
+
+    $row = $result->fetch_assoc();
+
+    return (int)$row['total'];
+}
+
+// Blocked users
+public function countBlocked(): int
+{
+    $result = $this->conn->query("
+        SELECT COUNT(*) AS total
+        FROM users
+        WHERE status='blocked'
+    ");
+
+    $row = $result->fetch_assoc();
+
+    return (int)$row['total'];
+}
+
+// Latest registered users
+public function getRecentUsers(int $limit = 5): array
+{
+    $stmt = $this->conn->prepare("
+        SELECT
+            full_name,
+            role,
+            status,
+            created_at
+        FROM users
+        ORDER BY created_at DESC
+        LIMIT ?
+    ");
+
+    $stmt->bind_param("i", $limit);
+
+    $stmt->execute();
+
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
+
 }

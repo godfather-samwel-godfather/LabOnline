@@ -262,7 +262,7 @@ $checkAppointmentUrl = patientPageUrl('view_appointments');
 
                 <!-- Header -->
                 <span class="text-cyan fw-bold">HOW IT WORKS</span>
-                <h2 class="fw-bold mb-4">Simple Steps to Get Your Medical Services Online</h2>
+                <h2 class="fw-bold mb-4">Simple Steps to Conduct Online Medical Test Booking</h2>
 
                 <!-- Process line -->
                 <div class="d-flex justify-content-center align-items-center mb-5">
@@ -295,7 +295,7 @@ $checkAppointmentUrl = patientPageUrl('view_appointments');
                         <div class="card h-100 shadow how-card">
                             <div class="card-body">
                                 <i class="bi bi-calendar-check text-cyan fs-1 mb-3"></i>
-                                <h5 class="fw-bold">Book Appointment</h5>
+                                <h5 class="fw-bold">Request Appointment Online</h5>
                                 <p class="text-muted">Patients book appointments online easily through the platform.</p>
                             </div>
                         </div>

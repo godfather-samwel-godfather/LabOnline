@@ -20,44 +20,98 @@ $completedCount = $appointmentRepo->countByPatientAndStatus($patientId, 'complet
 ?>
 
 
-<div class="container mt-4">
+<!-- Welcome Header -->
+<div class="card welcome-card text-white shadow border-0 mb-4">
+
+    <div class="card-body p-5">
+
+        <h2 class="fw-bold mb-2">
+
+            <i class="bi bi-clock-history me-2"></i>
+
+            Appointment History
+
+        </h2>
+
+        <p class="mb-0 text-muted">
+
+            Review your previous laboratory appointments, track appointment status, and export or print your appointment
+            history whenever needed.
+
+        </p>
+
+    </div>
+
+</div>
+<div class="d-flex justify-content-between align-items-center mb-3">
+
+    <h5 class="fw-bold mb-0">
+        Appointment Records
+    </h5>
+
+    <div class="d-flex gap-2">
+
+        <button class="btn btn-success" onclick="exportPDF(this)">
+            <i class="bi bi-file-earmark-pdf"></i>
+            Export PDF
+        </button>
+
+        <button class="btn btn-primary" onclick="printPage()">
+            <i class="bi bi-printer"></i>
+            Print
+        </button>
+
+    </div>
+
+</div>
 
 
-    <!-- HEADER -->
-    <div class="card shadow-sm border-0 mb-3">
+
+<div class="card-body">
 
 
-        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+
+    <!-- STATISTICS -->
+
+    <div class="row g-4 mb-4">
 
 
-            <h5 class="mb-0">
+        <div class="col-md-4">
 
-                <i class="bi bi-clock-history"></i>
-
-                Appointment History
-
-            </h5>
+            <div class="card shadow-sm p-3">
 
 
-            <div class="d-flex gap-2">
+                <h6 class="text-muted">
+                    Pending
+                </h6>
 
 
-                <button class="btn btn-sm btn-success" onclick="exportPDF(this)">
-
-                    <i class="bi bi-file-earmark-pdf"></i>
-
-                    Export PDF
-
-                </button>
+                <h2>
+                    <?= $pendingCount ?>
+                </h2>
 
 
-                <button class="btn btn-sm btn-primary" onclick="printPage()">
+            </div>
 
-                    <i class="bi bi-printer"></i>
 
-                    Print
+        </div>
 
-                </button>
+
+
+        <div class="col-md-4">
+
+
+            <div class="card shadow-sm p-3">
+
+
+                <h6 class="text-muted">
+                    Approved
+                </h6>
+
+
+                <h2>
+                    <?= $approvedCount ?>
+                </h2>
 
 
             </div>
@@ -68,290 +122,237 @@ $completedCount = $appointmentRepo->countByPatientAndStatus($patientId, 'complet
 
 
 
-        <div class="card-body">
 
 
-
-            <!-- STATISTICS -->
-
-            <div class="row g-4 mb-4">
+        <div class="col-md-4">
 
 
-                <div class="col-md-4">
-
-                    <div class="card shadow-sm p-3">
+            <div class="card shadow-sm p-3">
 
 
-                        <h6 class="text-muted">
-                            Pending
-                        </h6>
+                <h6 class="text-muted">
+                    Completed
+                </h6>
 
 
-                        <h2>
-                            <?= $pendingCount ?>
-                        </h2>
-
-
-                    </div>
-
-
-                </div>
-
-
-
-                <div class="col-md-4">
-
-
-                    <div class="card shadow-sm p-3">
-
-
-                        <h6 class="text-muted">
-                            Approved
-                        </h6>
-
-
-                        <h2>
-                            <?= $approvedCount ?>
-                        </h2>
-
-
-                    </div>
-
-
-                </div>
-
-
-
-                <div class="col-md-4">
-
-
-                    <div class="card shadow-sm p-3">
-
-
-                        <h6 class="text-muted">
-                            Completed
-                        </h6>
-
-
-                        <h2>
-                            <?= $completedCount ?>
-                        </h2>
-
-
-                    </div>
-
-
-                </div>
+                <h2>
+                    <?= $completedCount ?>
+                </h2>
 
 
             </div>
 
 
+        </div>
 
 
+    </div>
 
 
-            <!-- FILTERS -->
 
-            <div class="row g-2 mb-3">
 
 
-                <div class="col-md-5">
 
+    <!-- FILTERS -->
 
-                    <input type="text" id="searchInput" class="form-control"
-                        placeholder="Search doctor or laboratory...">
+    <div class="row g-2 mb-3">
 
 
-                </div>
+        <div class="col-md-5">
 
 
+            <input type="text" id="searchInput" class="form-control" placeholder="Search doctor or laboratory...">
 
-                <div class="col-md-3">
 
+        </div>
 
-                    <input type="date" id="dateFrom" class="form-control">
 
 
-                </div>
+        <div class="col-md-3">
 
 
+            <input type="date" id="dateFrom" class="form-control">
 
 
-                <div class="col-md-3">
+        </div>
 
 
-                    <input type="date" id="dateTo" class="form-control">
 
 
-                </div>
+        <div class="col-md-3">
 
 
+            <input type="date" id="dateTo" class="form-control">
 
 
-                <div class="col-md-1">
+        </div>
 
 
-                    <button class="btn btn-secondary w-100" onclick="resetFilters()">
 
 
-                        <i class="bi bi-arrow-clockwise"></i>
+        <div class="col-md-1">
 
 
-                    </button>
+            <button class="btn btn-secondary w-100" onclick="resetFilters()">
 
 
-                </div>
+                <i class="bi bi-arrow-clockwise"></i>
 
 
+            </button>
 
-            </div>
 
+        </div>
 
 
 
+    </div>
 
-            <!-- TABLE -->
 
 
-            <div id="printArea" class="table-responsive">
 
 
-                <table class="table table-hover align-middle">
+    <!-- TABLE -->
 
 
+    <div id="printArea" class="table-responsive">
 
-                    <thead class="table-light">
 
+        <table class="table table-hover align-middle">
 
-                        <tr>
 
-                            <th>#</th>
 
-                            <th>Date</th>
+            <thead class="table-light">
 
-                            <th>Doctor</th>
 
-                            <th>Laboratory</th>
+                <tr>
 
-                            <th>Tests</th>
+                    <th>#</th>
 
-                            <th>Status</th>
+                    <th>Appointment Date</th>
 
+                    <th>Doctor</th>
 
+                    <th>Laboratory</th>
 
-                        </tr>
+                    <th>Tests</th>
 
+                    <th>Status</th>
 
-                    </thead>
 
 
+                </tr>
 
 
+            </thead>
 
-                    <tbody id="tableBody">
 
 
 
-                        <?php if(empty($appointments)): ?>
 
+            <tbody id="tableBody">
 
-                        <tr>
 
 
-                            <td colspan="7" class="text-center text-muted py-4">
+                <?php if(empty($appointments)): ?>
 
 
-                                No appointment history found.
+                <tr>
 
 
-                            </td>
+                    <td colspan="7" class="text-center text-muted py-4">
 
 
-                        </tr>
+                        No appointment history found.
 
 
+                    </td>
 
 
-                        <?php else: ?>
+                </tr>
 
 
 
 
-                        <?php foreach($appointments as $i => $row): ?>
+                <?php else: ?>
 
 
 
-                        <tr>
 
+                <?php foreach($appointments as $i => $row): ?>
 
 
-                            <td>
 
-                                <?= $i + 1 ?>
+                <tr>
 
-                            </td>
 
 
+                    <td>
 
+                        <?= $i + 1 ?>
 
+                    </td>
 
-                            <td>
 
 
-                                <?= e(formatDate($row['appointment_date'])) ?>
 
 
-                                <br>
+                    <td>
 
 
-                                <small class="text-muted">
+                        <?= e(formatDate($row['appointment_date'])) ?>
 
 
-                                    <?= e(formatTime($row['appointment_time'])) ?>
+                        <br>
 
 
-                                </small>
+                        <small class="text-muted">
 
 
+                            <?= e(formatTime($row['appointment_time'])) ?>
 
-                            </td>
 
+                        </small>
 
 
 
+                    </td>
 
-                            <td>
 
 
-                                <?= e($row['doctor_name'] ?? 'Not assigned') ?>
 
 
-                            </td>
+                    <td>
 
 
+                        <?= e($row['doctor_name'] ?? 'Not assigned') ?>
 
 
+                    </td>
 
-                            <td>
 
 
-                                <?= e($row['labo_name'] ?? '-') ?>
 
 
-                            </td>
+                    <td>
 
 
+                        <?= e($row['labo_name'] ?? '-') ?>
 
 
+                    </td>
 
-                            <td>
 
 
-                                <small>
 
 
-                                    <?= e(
+                    <td>
+
+
+                        <small>
+
+
+                            <?= e(
 
                                     $labTestRepo->getNamesByAppointmentId(
 
@@ -362,82 +363,82 @@ $completedCount = $appointmentRepo->countByPatientAndStatus($patientId, 'complet
                                 ) ?>
 
 
-                                </small>
+                        </small>
 
 
-                            </td>
-
-
-
-
-
-                            <td>
-
-
-
-                                <span class="badge <?= statusBadge($row['status']) ?>">
-
-
-                                    <?= e(ucfirst($row['status'])) ?>
-
-
-                                </span>
-
-
-
-                            </td>
-
-
-
-
-                        </tr>
-
-
-
-
-                        <?php endforeach; ?>
-
-
-
-
-                        <?php endif; ?>
-
-
-
-
-                    </tbody>
-
-
-
-
-                </table>
-
-
-
-
-            </div>
+                    </td>
 
 
 
 
 
-            <nav class="mt-3">
-
-
-                <ul class="pagination justify-content-end" id="pagination"></ul>
-
-
-            </nav>
+                    <td>
 
 
 
+                        <span class="badge <?= statusBadge($row['status']) ?>">
 
 
-        </div>
+                            <?= e(ucfirst($row['status'])) ?>
+
+
+                        </span>
+
+
+
+                    </td>
+
+
+
+
+                </tr>
+
+
+
+
+                <?php endforeach; ?>
+
+
+
+
+                <?php endif; ?>
+
+
+
+
+            </tbody>
+
+
+
+
+        </table>
+
 
 
 
     </div>
+
+
+
+
+
+    <nav class="mt-3">
+
+
+        <ul class="pagination justify-content-end" id="pagination"></ul>
+
+
+    </nav>
+
+
+
+
+
+</div>
+
+
+
+</div>
 
 
 

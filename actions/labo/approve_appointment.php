@@ -1,6 +1,6 @@
 <?php
 /**
- * Labo: idhinisha ombi la vipimo (pending → approved).
+ * Labo: approve test request (paid → approved)
  */
 
 require_once __DIR__ . '/../../includes/action_bootstrap.php';
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 
 
-$appointmentId = (int) ($_POST['appointment_id'] ?? 0);
+$appointmentId = (int)($_POST['appointment_id'] ?? 0);
 
 $labUserId = getCurrentUserId();
 
@@ -37,29 +37,65 @@ if (!$labId || !$appointmentId) {
 
 
 
-// CHECK PAYMENT FIRST
+// CHECK PAYMENT
+
+// CHECK PAYMENT
 
 $paymentRepo = new PaymentRepository($conn);
-
 
 $payment = $paymentRepo->getByAppointmentId($appointmentId);
 
 
+$paid = false;
 
-if (!$payment || $payment['payment_status'] !== 'paid') {
 
+// Normal payment
+if ($payment && $payment['payment_status'] === 'paid') {
+
+    $paid = true;
+
+}
+
+
+
+// Rebook payment check
+if (
+    !$paid &&
+    $payment &&
+    !empty($payment['reference_payment_id'])
+) {
+
+
+    $oldPayment = $paymentRepo->getById(
+        (int)$payment['reference_payment_id']
+    );
+
+
+    if (
+        $oldPayment &&
+        $oldPayment['payment_status'] === 'paid'
+    ) {
+
+        $paid = true;
+
+    }
+
+}
+
+
+
+if (!$paid) {
 
     redirect(
         '../../labo/dashboard.php?page=test_requests&error=Patient has not paid yet'
     );
-
 
 }
 
 
 
 
-// NOW APPROVE
+// APPROVE APPOINTMENT
 
 $appointmentRepo = new AppointmentRepository($conn);
 
@@ -76,7 +112,7 @@ if (
 
 
     redirect(
-        '../../labo/dashboard.php?page=test_requests&msg=Request approved'
+        '../../labo/dashboard.php?page=test_requests&msg=Request approved successfully'
     );
 
 
@@ -85,5 +121,5 @@ if (
 
 
 redirect(
-    '../../labo/dashboard.php?page=test_requests&error=Could not approve request'
+    '../../labo/dashboard.php?page=test_requests&error=Failed to approve request'
 );
