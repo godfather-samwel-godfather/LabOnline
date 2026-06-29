@@ -71,5 +71,5 @@ function flashMessage(): void
         echo '<div class="alert alert-danger alert-dismissible fade show py-2 small">';
         echo '<i class="bi bi-exclamation-circle me-1"></i>' . e($_GET['error']);
         echo '<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>';
-    }
+    }  
 }

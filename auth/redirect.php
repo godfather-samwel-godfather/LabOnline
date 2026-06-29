@@ -48,9 +48,9 @@ function redirectAfterLogin(string $role, ?string $redirectKey = null): string
     return redirectByRole($role);
 }
 
-/**
- * Homepage button URL — logged-in patient goes direct; others go to login first.
- */
+/*
+  Homepage button URL — logged-in patient goes direct; others go to login first.
+ 
 function patientPageUrl(string $pageKey): string
 {
     $allowed = allowedPatientRedirects();
@@ -63,9 +63,50 @@ function patientPageUrl(string $pageKey): string
     }
 
     return 'auth/login.php?redirect=' . urlencode($pageKey);
-}
+}*/
 
 /** Human-readable message for login page */
+function patientPageUrl(string $pageKey, ?int $id = null): string
+{
+    $allowed = allowedPatientRedirects();
+
+    if (!isset($allowed[$pageKey])) {
+        return 'auth/login.php';
+    }
+
+
+    if (
+        isset($_SESSION['user_id'], $_SESSION['role'])
+        && $_SESSION['role'] === 'patient'
+    ) {
+
+        $url = 'patient/dashboard.php?page=' . urlencode($pageKey);
+
+
+        if ($id !== null) {
+
+            $url .= '&test_id=' . $id;
+
+        }
+
+
+        return $url;
+
+    }
+
+
+    $url= 'auth/login.php?redirect=' . urlencode($pageKey);
+    
+    if($id !== null){
+        $url .= '&test_id=' . $id;    
+    }
+
+    return $url;
+}
+
+
+
+
 function redirectIntentMessage(?string $redirectKey): string
 {
     return match ($redirectKey) {

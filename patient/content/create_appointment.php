@@ -25,6 +25,7 @@ $laboratories = $labRepo->getAll();
 $tests = $labTestRepo->getAllWithCategory();
 $doctors = $userRepo->getActiveDoctors();
 $patientName = $_SESSION['full_name'] ?? 'Patient';
+$selectedTest = (int)($_GET['test_id'] ?? 0);
 ?>
 
 <div class="container py-5">
@@ -134,8 +135,9 @@ $patientName = $_SESSION['full_name'] ?? 'Patient';
                                     <div class="form-check border rounded p-2">
 
                                         <input class="form-check-input" type="checkbox" name="test_ids[]"
-                                            value="<?= e((string)$test['id']) ?>" id="test<?= e((string)$test['id']) ?>"
-                                            <?phpif($oldAppointment && in_array($test['id'],$oldTests)){ echo "checked";}?>>
+                                            value="<?= e((string)$test['id']) ?>" id="test<?= e((string)$test['id']) ?>" <?phpif($oldAppointment && in_array($test['id'],$oldTests))
+                                                ||($selectedTest===(int)$test['id'])
+                                            { echo "checked";}?>>
                                         <label class="form-check-label" for="test<?= e((string)$test['id']) ?>">
 
                                             <?= e($test['test_name']) ?>

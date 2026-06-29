@@ -2,11 +2,13 @@
 require_once 'includes/helpers.php';
 require_once 'config/db.php';
 require_once 'repositories/LabTestRepository.php';
+require_once 'auth/redirect.php';
 
 $labTestRepo = new LabTestRepository($conn);
 $tests = $labTestRepo->getAllWithCategory();
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -348,11 +350,12 @@ $tests = $labTestRepo->getAllWithCategory();
 
 
 
-                    <button class="btn btn-primary book-btn">
-
+                    <a href="<?php echo
+                    htmlspecialchars(patientPageUrl('create_appointment', (int)
+                    $test['id'])) ?>" class="btn btn-primary book-btn">
+                        <i class="bi bi-calendar-check"></i>
                         Book Test
-
-                    </button>
+                    </a>
 
 
 

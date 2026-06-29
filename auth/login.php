@@ -144,6 +144,10 @@ $redirectMsg = redirectIntentMessage($redirectKey);
                                 <?php if ($redirectKey): ?>
                                 <input type="hidden" name="redirect" value="<?= htmlspecialchars($redirectKey) ?>">
                                 <?php endif; ?>
+                                <?php if (isset($_GET['test_id'])): ?>
+                                <input type="hidden" name="test_id" value="<?= (int)$_GET['test_id'] ?>">
+                                <?php endif; ?>
+
                                 <div class="mb-3">
                                     <label class="form-label small">Email Address</label>
                                     <input type="email" name="email" class="form-control" placeholder="Email" required>
@@ -152,8 +156,8 @@ $redirectMsg = redirectIntentMessage($redirectKey);
                                 <div class="mb-3">
                                     <label class="form-label small">Password</label>
                                     <div class="input-group">
-                                        <input type="password" name="password" id="loginPassword"
-                                            class="form-control" placeholder="Password" required>
+                                        <input type="password" name="password" id="loginPassword" class="form-control"
+                                            placeholder="Password" required>
                                         <button type="button" class="btn btn-outline-secondary toggle-password"
                                             data-target="loginPassword" aria-label="Show or hide password">
                                             <i class="bi bi-eye"></i>
@@ -164,14 +168,26 @@ $redirectMsg = redirectIntentMessage($redirectKey);
                                 <button type="submit" class="btn btn-success w-100 py-2">
                                     Login
                                 </button>
-
                                 <div class="text-center mt-3">
                                     <small class="text-muted">
                                         Don't have an account?
-                                        <a href="register.php<?= $redirectKey ? '?redirect=' . urlencode($redirectKey) : '' ?>"
-                                            class="fw-bold text-primary text-decoration-none">
+
+                                        <?php
+                                         $registerUrl = 'register.php';
+                                        if ($redirectKey) { 
+                                            $registerUrl .= '?redirect=' .
+                                             urlencode($redirectKey);
+                                        if (isset($_GET['test_id'])) {
+                                            $registerUrl .= '&test_id=' . (int)
+                                            $_GET['test_id'];
+                                             } 
+                                        } 
+                                        ?>
+
+                                        <a href="<?= $registerUrl ?>" class="fw-bold text-primary text-decoration-none">
                                             Register
                                         </a>
+
                                     </small>
                                 </div>
                             </form>

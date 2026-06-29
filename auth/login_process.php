@@ -11,7 +11,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
 $redirectKey = sanitizeRedirectKey($_POST['redirect'] ?? null);
+$testId = isset($_POST['test_id']) ? (int) $_POST['test_id'] : null;
 $redirectQuery = $redirectKey ? '&redirect=' . urlencode($redirectKey) : '';
+
+if ($testId){
+    $redirectQuery .= '&test_id=' . $testId;
+}
 
 $sql = 'SELECT * FROM users WHERE email = ?';
 $stmt = $conn->prepare($sql);
@@ -50,7 +55,14 @@ $update = $conn->prepare('UPDATE users SET last_login = NOW() WHERE id = ?');
 $update->bind_param('i', $user['id']);
 $update->execute();
 
-redirect(redirectAfterLogin($user['role'], $redirectKey));
+$redirectUrl =redirectAfterLogin($user['role'], $redirectKey);
+
+if($testId && $redirectKey === 'create_appointment'){
+    $redirectUrl .= '&test_id=' . $testId;    
+
+}
+
+redirect($redirectUrl);
 
 
 
